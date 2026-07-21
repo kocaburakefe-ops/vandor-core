@@ -1,0 +1,519 @@
+--- I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL) ---
+0001. Karnor   -> Çekirdek / Sistem Mantığı (Kernel)
+0002. Dataron  -> İşlenecek Ham Veri (Data)
+0003. Netris   -> Ağ Matrisi / Bağlantı Sahası (Network)
+0004. Aianis   -> Otonom Akıl / Zeka Çekirdeği (AI Core)
+0005. Algoris  -> Mantıksal Dizilim (Algorithm)
+0006. Tokenis  -> Kimlik Belirteci (Token)
+0007. Kodra    -> Yazılım Metni / Kod (Code)
+0008. Bytor    -> Depolama Birimi (Byte)
+0009. Nodor    -> Bağlantı Düğümü (Node)
+0010. Krypton  -> Şifreli Veri (Crypt)
+0011. Fluxis   -> Dinamik Veri Akışı (Flux)
+0012. Pulsar   -> Sistem Sinyali / Frekans (Pulse)
+0013. Synkor   -> Eşzamanlama / Uyum (Sync)
+0014. Shelor   -> Komut Kabuğu (Shell)
+0015. Matrex   -> Izgara Yapı / Gerçeklik (Matrix)
+0016. Sektora  -> Yönetim Bölütü (Sector)
+0017. Vektora  -> Yönlü İşlem / Vektör (Vector)
+0018. Memora   -> Geçici Bellek (Memory)
+0019. Hashor   -> Doğrulama Şifresi (Hash)
+0020. Gatora   -> Mantıksal Kapı (Gate)
+0021. Portis   -> İletişim Kanalı (Port)
+0022. Paketis  -> Veri Blok Paketi (Packet)
+0023. Stakora  -> Veri Yığını (Stack)
+0024. Hipor    -> Dinamik Bellek Alanı (Heap)
+0025. Tredor   -> İşlem İpliği (Thread)
+0026. Trapor   -> Yakalama Mekanizması (Trap)
+0027. Sistemis -> Genel Düzen / Mimari (System)
+0028. Proksis  -> İşleme Motoru (Processor)
+0029. Xplora   -> Güvenlik Açığı / Sızma (Exploit)
+0030. Walor    -> Koruma Duvarı (Wall)
+0031. Maskor   -> Kimlik Maskesi (Mask)
+0032. Nulis    -> Tanımsız Boşluk (Null)
+0033. Zeronis  -> Başlangıç Noktası (Zero)
+0034. Pingor   -> Sinyal Yanıt Süresi (Ping)
+0035. Hostis   -> Barındırıcı Sunucu (Host)
+0036. Rootis   -> En Yüksek Yetki (Root)
+0037. Useris   -> Sistem Birimi (User)
+0038. Adminos  -> Yönetici Akıl (Admin)
+0039. Logor    -> Hareket Kaydı (Log)
+0040. Bugor    -> Mantık Kusuru / Hata (Bug)
+0041. Pachis   -> Anlık Sistem Yaması (Patch)
+0042. Dumpor   -> Bellek Dökümü (Dump)
+0043. Fechor   -> Veri Çekimi (Fetch)
+0044. Pushor   -> Veri Basımı (Push)
+0045. Pulor    -> Veri Güncelleme (Pull)
+0046. Overis   -> Sistem Taşması (Overflow)
+0047. Likor    -> Bellek Sızıntısı (Leak)
+0048. Forkis   -> İşlem Dallanması (Fork)
+0049. Lokis    -> Erişim Kilidi (Lock)
+0050. Skanor   -> Ağ Taraması (Scan)
+
+--- II. SİBER GÜVENLİK VE KRİPTOLOJİ (CYBERSEC & CIPHER) ---
+0051. Injektor -> Kod Enjeksiyonu
+0052. Bypasor  -> Güvenlik Engelini Aşma
+0053. Author   -> Kimlik Doğrulama
+0054. Permis   -> Sistem İzni / Yetki
+0055. Skopor   -> Etki Alanı / Kapsam
+0056. Sekretis -> Gizli Anahtar
+0057. Cifron   -> Şifreli Metin Algoritması
+0058. Dekryp   -> Şifre Çözme İşlemi
+0059. Keyros   -> Erişim Anahtarı
+0060. Voltor   -> Güvenli Veri Deposu
+0061. Certis   -> Dijital Sertifika
+0062. Sesion   -> Canlı Bağlantı Oturumu
+0063. Proksor  -> Vekil Sunucu (Proxy)
+0064. Tunelor  -> Gizli Veri Tüneli
+0065. Soketisa -> Canlı İletişim Soketi
+0066. Strimis  -> Kesintisiz Veri Akışı
+0067. Buferis  -> Tampon Bellek
+0068. Kueris   -> İşlem Kuyruğu
+0069. Eventis  -> Sistem Olayı / Tetik
+0070. Signalis -> Kesme Sinyali
+0071. Handlor  -> Olay Yakalayıcı
+0072. Lupor    -> Döngüsel İşlem
+0073. Statis   -> Anlık Sistem Durumu
+0074. Flagor   -> Durum İşareti / Bayrak
+0075. Kontext  -> İşlem Arka Planı
+0076. Framor   -> Veri Çerçevesi
+0077. Blokis   -> Kilitli Veri Bloğu
+0078. Cenor    -> Blok Zinciri (Chain)
+0079. Lejeris  -> Dağıtık Kayıt Defteri
+0080. Konsen   -> Ağ Uzlaşısı (Consensus)
+0081. Profor   -> Doğrulama Kanıtı
+0082. Stakor   -> Ağ Payı / Varlık
+0083. Mintor   -> Yeni Token Üretimi
+0084. Burnis   -> Token İmhası / Yakma
+0085. Swapor   -> Varlık Takası
+0086. Pulor    -> Likidite Havuzu
+0087. Yildis   -> Sistem Verimi
+0088. Piris    -> Eşit Ağ Düğümü (Peer)
+0089. Klientis -> İstemci Birim
+0090. Servor   -> Hizmet Sunucusu
+0091. Klustor  -> Sunucu Kümesi
+0092. Sardis   -> Veri Tabanı Parçası
+0093. Replika  -> Kopya Düğüm
+0094. Lodor    -> Sistem Yükü
+0095. Skalor   -> Ölçekleme / Genişleme
+0096. Mesor    -> Karmaşık Ağ Yapısı
+0097. Gridor   -> Enerji / Veri Izgarası
+0098. Exekor   -> Komut Çalıştırma
+0099. Butor    -> Sistem Başlatma (Boot)
+0100. Haltis   -> İşlemi Durdurma
+
+--- III. SİSTEM KOMUTLARI VE SÜREÇLER (COMMANDS & EXECUTION) ---
+0101. Kilor    -> Süreç Sonlandırma
+0102. Purgis   -> Bellek Temizleme
+0103. Flusor   -> Tampon Sıfırlama
+0104. Resetis  -> Fabrika Ayarına Dönüş
+0105. Rebutor  -> Yeniden Başlatma
+0106. Pausor   -> Geçici Duraklatma
+0107. Resumor  -> Devam Ettirme
+0108. Bindor   -> Düğümleri Bağlama
+0109. Atachis  -> Sürece Ekleme
+0110. Detachis -> Süreçten Ayırma
+0111. Montor   -> Sürücü Bağlama
+0112. Unmontis -> Sürücü Sökme
+0113. Parsor   -> Veri Çözümleme
+0114. Rendor   -> Görsel İşleme
+0115. Kompilor -> Kod Derleme
+0116. Deployis -> Sistemi Sahaya Sürme
+0117. Komitor  -> Değişiklik Onayı
+0118. Revertis -> Eski Sürüme Dönüş
+0119. Mergor   -> Kod Birleştirme
+0120. Brancor  -> Geliştirme Dalı
+0121. Klonis   -> Birebir Kopyalama
+0122. Stasor   -> Geçici Saklama
+0123. Trasor   -> Hata İzleme
+0124. Debugor  -> Hata Ayıklama
+0125. Bildor   -> Sürüm İnşası
+0126. Relisor  -> Resmi Sürüm Yayını
+0127. Trakor   -> Süreç Takibi
+0128. Montor   -> Sistem İzleme (Monitor)
+0129. Alertis  -> Sistem Uyarısı
+0130. Notifis  -> Bildirim Gönderimi
+0131. Intersep -> Araya Girme
+0132. Kaptor   -> Paket Yakalama
+0133. Rutor    -> Veri Yönlendirme
+0134. Mapis    -> Veri Eşleme
+0135. Filtor   -> Veri Süzme
+0136. Sortis   -> Sıralama İşlemi
+0137. Indexor  -> Hızlı Erişim Dizini
+0138. Kueror   -> Veri Sorgusu
+0139. Mutas    -> Yapısal Değişim
+0140. Transfor -> Dönüştürme
+0141. Enkodor  -> Veri Kodlama
+0142. Dekodor  -> Kod Çözme
+0143. Kompres  -> Veri Sıkıştırma
+0144. Expantis -> Veri Genişletme
+0145. Arkivor  -> Kalıcı Arşivleme
+0146. Bakupor  -> Veri Yedekleme
+0147. Restor   -> Yedeğe Dönüş
+0148. Miror    -> Birebir Yansıma
+0149. Importis -> Dışarıdan Veri Alma
+0150. Exportis -> Dışarıya Veri Aktarma
+
+--- IV. MİMARİ KATMANLAR VE DONANIM (ARCHITECTURE & HARDWARE) ---
+0151. Migras   -> Sistem Taşıma
+0152. Shiftor  -> Katman Kaydırma
+0153. Svicor   -> Hat Değiştirme
+0154. Trigor   -> Tetikleme Mekanizması
+0155. Dispac   -> Görev Dağıtımı
+0156. Skedul   -> Zamanlanmış Görev
+0157. Polor    -> Periyodik Durum Kontrolü
+0158. Akor     -> Onay Sinyali (ACK)
+0159. Handsak  -> Oturum Sıkılaşması
+0160. Ekor     -> Veri Yankısı
+0161. Timout   -> Zaman Aşımı
+0162. Retris   -> Tekrar Deneme
+0163. Abortis  -> Süreç İptali
+0164. Overvri  -> Üstüne Yazma
+0165. Apenor   -> Sonuna Ekleme
+0166. Trunka   -> Veri Kesme
+0167. Isolatis -> Karantinaya Alma
+0168. Sandbok  -> Deneme Ortamı
+0169. Mokor    -> Test İçin Sahte Veri
+0170. Stubis   -> Taslak İşlev
+0171. Emulor   -> Donanım Taklidi
+0172. Simulor  -> Mantıksal Simülasyon
+0173. Bencmor  -> Performans Ölçümü
+0174. Optimis  -> Verimlilik Artırma
+0175. Trotlor  -> Bant Genişliği Kısma
+0176. Limitor  -> Üst Sınır Koyma
+0177. Kapor    -> Azami Kapasite
+0178. Kuotor   -> Kullanım Kotası
+0179. Restrik  -> Sınırlama Getirme
+0180. Grantis  -> Yetki Verme
+0181. Revokis  -> Yetki Geri Alma
+0182. Banor    -> Sistemden Yasaklama
+0183. Vajtlis  -> Güvenli Liste
+0184. Blaklis  -> Yasaklı Liste
+0185. Auditor  -> Güvenlik Denetimi
+0186. Validor  -> Şema Doğrulama
+0187. Verifis  -> Kimlik Teyidi
+0188. Sanitis  -> Veri Arındırma
+0189. Termis   -> Uç Nokta (Terminal)
+0190. Konsol   -> Kumanda Paneli
+0191. Kliros   -> Komut Satırı Arayüzü
+0192. Guiron   -> Görsel Arayüz
+0193. Apiar    -> Uygulama Arabirimi (API)
+0194. Sdkor    -> Geliştirici Kiti
+0195. Libro    -> Yazılım Kütüphanesi
+0196. Modulor  -> Sistem Modülü
+0197. Pakor    -> Paket Bileşeni
+0198. Pluginis -> Eklenti Parçası
+0199. Extensis -> Sistem Genişletici
+0200. Hookor   -> Müdahale İğnesi
+
+--- V. ŞANZEELLA EVRENİ VE COĞRAFYA (ŞANZEELLA & GEOGRAPHY) ---
+0201. Şanzora  -> Şanzeella Ana Boyutu
+0202. Vandora  -> Vandor Çekirdek Diyarı
+0203. Cyklor   -> 40 Saatlik Gün Döngüsü
+0204. Tempora  -> Siber Zaman Yapısı
+0205. Shiftis  -> 10 Sezonluk Mevsim Kayması
+0206. Fasor    -> Döngü Evresi / Periyot
+0207. Solaris  -> Birincil Işık Kaynağı
+0208. Luxora   -> Fütüristik Aydınlatma
+0209. Umbrora  -> Boyutsal Gölge
+0210. Voidis   -> Derin Boşluk / Hiçlik
+0211. Atmos    -> Siber Gaz Katmanı
+0212. Strator  -> Üst Atmosfer Katmanı
+0213. Ionis    -> İyonize Enerji Sahası
+0214. Gravor   -> Yerçekimi / Kütle Çekimi
+0215. Masora   -> Veri / Kütle Yoğunluğu
+0216. Orbitor  -> Yörünge Dönüş Hattı
+0217. Aksor    -> Dönüş Ekseni / Kutup
+0218. Zonaris  -> Yönetim Sektörü / Bölge
+0219. Gridera  -> Coğrafi IzgaraKoordinat
+0220. Teraris  -> Kara Parçası / Arazi
+0221. Akvari   -> Sıvı Kaynağı / Su
+0222. Pyrora   -> Termal Enerji / Ateş
+0223. Aerora   -> Hava Akımı / Rüzgar
+0224. Cryora   -> Aşırı Soğuma / Buz
+0225. Plasmor  -> Dördüncü Hal Enerjisi
+0226. Magne    -> Manyetik Alan Çekimi
+0227. Pulsis   -> Elektromanyetik Şok
+0228. Radior   -> Sinyal Dalgası Hattı
+0229. Vavor    -> Frekans Titreşimi
+0230. Koris    -> Gezegen Çekirdeği
+0231. Krustor  -> Dış Kabuk / Yüzey
+0232. Mantor   -> Sıcak Orta Katman
+0233. Riftis   -> Tektonik Yarık / Fay
+0234. Abysor   -> Tabansız Çukur
+0235. Pikora   -> Zirve / En Yüksek Nokta
+0236. Basinor  -> Çöküntü Havzası
+0237. Kostor   -> Sahil Şeridi / Sınır
+0238. Deltora  -> Veri/Su Yayılım Ağzı
+0239. Stretor  -> Dar Geçit / Boğaz
+0240. Kronos   -> Kronolojik Zaman Birimi
+0241. Tikor    -> Zamanın En Küçük Birimi
+0242. Spanor   -> Süreç Genişliği
+0243. Epokis   -> Siber Çağ / Devir
+0244. Primor   -> Başlangıç Saati / Zirve
+0245. Duskor   -> Döngü Sonu / Alacakaranlık
+0246. Danor    -> Yeni Döngü Başlangıcı
+0247. Seson    -> Şanzeella Mevsim Birimi
+0248. Frostis  -> Soğuk Sezon Fazı
+0249. Embor    -> Sıcak Sezon Fazı
+0250. Stormis  -> Fırtına / Türbülans
+
+--- VI. FİZİK, EVREN VE ELEMENTLER (PHYSICS & ELEMENTS) ---
+0251. Kalmor   -> Durgunluk / Kararlı Hal
+0252. Tidor    -> Yükselme / Çekilme
+0253. Floris   -> Yönlü Sıvı/Veri Akışı
+0254. Kurent   -> Enerji Hattı Akıntısı
+0255. Statik   -> Parazit / Durağan Enerji
+0256. Dynamis  -> Hareketli Durum
+0257. Sieldor  -> Atmosferik Koruma
+0258. Baren    -> Sınır Engeli
+0259. Domis    -> Korumalı Şehir Kubbesi
+0260. Outpos   -> Dış İleri Karakol
+0261. Sitadel  -> Merkez Kalesi / Depo
+0262. Havonis  -> Güvenli Bölge / Sığınak
+0263. Vasland  -> Veri Çölü / Boş Saha
+0264. Ruinos   -> Çökmüş Eski Sistem
+0265. Voltoris -> Kıymetli Maden Deposu
+0266. Atomis   -> Temel Madde Birimi
+0267. Kuarkos  -> Alt Parçacık
+0268. Fotonis  -> Işık Parçacığı
+0269. Elektron -> Şarj Parçacığı
+0270. Neutron  -> Nötr Enerji Birimi
+0271. Protonis -> Pozitif Yüklü Parçacık
+0272. Ionis    -> Yüklü Atom Birimi
+0273. Molekul  -> Birleşik Yapı Malzemesi
+0274. Elementos-> Saf Madde Kökü
+0275. Metalic  -> İletken Madde Kökü
+0276. Silikon  -> Yarı İletken Kristal
+0277. Karbonis -> Temel Yaşam Yapısı
+0278. Aloyis   -> Güçlendirilmiş Karışım Metal
+0279. Kristal  -> Düzenli Atomik Yapı
+0280. Fluidis  -> Akışkan Madde
+0281. Vaporis  -> Gaz / Buhar Katmanı
+0282. Solidus  -> Katı Bükülmez Yapı
+0283. Etiris   -> Boyutlar Arası Madde
+0284. Nanitiz  -> Mikro Robotik Madde
+0285. Forsis   -> Uygulanan Güç Birimi
+0286. Enerjis  -> Isı / İş Kapasitesi
+0287. Powris   -> Birim Zaman Enerjisi
+0288. Moción   -> Konum Değişimi
+0289. Spedor   -> Birim Zaman Yolu
+0290. Velos    -> Yönlü Hız
+0291. Aksel    -> İvmelenme / Hızlanma
+0292. Deksel   -> Yavaşlama Sinyali
+0293. Inersia  -> Eylemsizlik Durumu
+0294. Friksor  -> Sürtünme / Direnç
+0295. Tension  -> Gerilim / Basınç
+0296. Volumor  -> Kaplanan Hacim
+0297. Densor   -> Yoğunluk Oranı
+0298. Tempris  -> Sıcaklık Derecesi
+0299. Fucion   -> Atomik Birleşme
+0300. Fision   -> Atomik Bölünme
+
+--- VII. ZAMAN, AKIŞ VE ELEKTRONİK (TIME, FLOW & ELECTRONICS) ---
+0301. Radian   -> Işıma / Radyasyon
+0302. Feldis   -> Etki Sahası / Alan
+0303. Polaris  -> Manyetik Kutup Noktası
+0304. Dipolor  -> Çift Kutup Yapısı
+0305. Fluksis  -> Alan Çizgisi Akışı
+0306. Cargor   -> Elektrik Yükü Deposu
+0307. Sparkis  -> Anlık Ark / Kıvılcım
+0308. Litor    -> Görünür Spektrum Işığı
+0309. Darkos   -> Işıksızlık Boşluğu
+0310. Sadowis  -> Engellenmiş Işık Alanı
+0311. Miroris  -> Tam Yansıtıcı Yüzey
+0312. Prismis  -> Spektrum Ayrıştırıcı
+0313. Lensor   -> Odaklayıcı Mercek
+0314. Bimor    -> Yoğunlaştırılmış Işık
+0315. Laseris  -> Tek Dalga Boylu Işık
+0316. Optikis  -> Işık Bilimi / Algı
+0317. Visor    -> Görsel Algı Sahası
+0318. Sonik    -> Ses Hızı Dalgalanması
+0319. Ultrik   -> Yüksek Frekans Sahası
+0320. Infrak   -> Düşük Frekans Sahası
+0321. Noisor   -> Düzensiz Parazit Sinyal
+0322. Picor    -> Frekans Yüksekliği
+0323. Ekoris   -> Yansıyan Ses Sinyali
+0324. Reson    -> Eşleşen Titreşim
+0325. Mutor    -> Sesi Kesme İşlemi
+0326. Audior   -> İşitsel Veri Kökü
+0327. Bionic   -> Canlı Dokusu Yapısı
+0328. Selora   -> Biyolojik Hücre Birimi
+0329. Genoris  -> Kalıtım Kodu Dizilimi
+0330. Denaris  -> Biyolojik Veri Dizisi
+0331. Organik  -> Karbon Tabanlı Canlı
+0332. Sintetik -> Yapay Üretim Dokusu
+0333. Siberne  -> Canlı-Makine Hibriti
+0334. Klonis   -> Biyolojik Tam Kopya
+0335. Tisu    -> Hücre Dokusu
+0336. Organis  -> İşlevsel Biyolojik Birim
+0337. Neuralis -> Sinir Ağı Düğümü
+0338. Brainis  -> Biyolojik İşlemci
+0339. Sinapsis -> Sinir Bağlantı Noktası
+0340. Mindora  -> Bilinç / Akıl Katmanı
+0341. Sensoris -> Dış Ortam Algılayıcısı
+0342. Sightis  -> Görüş Algısı
+0343. Tucor    -> Temas Algısı
+0344. Tastor   -> Kimyasal Tad Algısı
+0345. Smelor   -> Gaz Kimyasal Algısı
+0346. Painor   -> Hasar İkaz Sinyali
+0347. Motoris  -> Hareket Sistemi Motoru
+0348. Muskor   -> Biyolojik Lif Gücü
+0349. Bonis    -> Taşıyıcı İskelet Kökü
+0350. Skinor   -> Koruyucu Dış Katman
+
+--- VIII. BİYOLOJİ, ORGANİZMA VE SOYUT KAVRAMLAR (BIOLOGY & ABSTRACT) ---
+0351. Blodor   -> Besleyici Sıvı Akışı
+0352. Pulsor   -> Biyolojik Kalp Ritmi
+0353. Bretor   -> Oksijen/Gaz Alımı
+0354. Liforis  -> Çalışır Canlı Durumu
+0355. Detor    -> Biyolojik Durma / Ölüm
+0356. Stasor   -> Dondurulmuş Canlılık
+0357. Plantis  -> Fotosentez Birimi
+0358. Floris   -> Genel Bitki Örtüsü
+0359. Faunis   -> Hayvan Popülasyonu
+0360. Bestia   -> Yabani Organik Birim
+0361. Avianis  -> Uçan Canlı Türü
+0362. Marinis  -> Su Altı Canlı Türü
+0363. Insektor -> Küçük Bağlantılı Canlı
+0364. Mikror   -> Mikroskobik Canlı
+0365. Virusis  -> Biyolojik/Dijital Bulaşan
+0366. Sporis   -> Yayılım Tohumu
+0367. Horizon  -> Ufuk Çizgisi Sınırı
+0368. Zenitor  -> En Yüksek Gökyüzü Noktası
+0369. Nadiris  -> En Alt Taban Noktası
+0370. Eklips   -> Işık Kesilmesi / Tutulma
+0371. Auroris  -> Manyetik Gökyüzü Işığı
+0372. Korona   -> Güneş Taç Katmanı
+0373. Flaris   -> Anlık Termal Patlama
+0374. Nebulon  -> Gaz/Toz Bulutu
+0375. Galaxis  -> Yıldız Sistemi Ailesi
+0376. Klustis  -> Gök Cisimleri Kümesi
+0377. Kometis  -> İcy Gök Cismi
+0378. Meteoris -> Atmosferik Taş
+0379. Astero   -> Kaya Kütlesi
+0380. Krator   -> Darbe Çukuru
+0381. Kuake    -> Yüzey Titreşimi
+0382. Volkanis -> Derin Madde Çıkışı
+0383. Lavor    -> Erimiş Kaya Akıntısı
+0384. Asor     -> Yanma Kalıntısı / Kül
+0385. Dustis   -> Partikül Bulutu
+0386. Sandor   -> Erozyon Parçacığı
+0387. Oseanis  -> Büyük Su Kütlesi
+0388. Searis   -> Bölgesel Su Kütlesi
+0389. Lakor    -> İç Kapalı Su
+0390. Rivor    -> Hareketli Su Hattı
+0391. Glasiar  -> Yavaş Akan Buz Kütlesi
+0392. Svampor  -> Islak Veri Bataklığı
+0393. Oasiz    -> Yaşam Vahası
+0394. Islandis -> Suyla İzole Kara
+0395. Peninsu  -> Üç Tarafı Kapalı Kara
+0396. Forestis -> Yoğun Ağaçlık Saha
+0397. Janglor  -> Geçitsiz Yeşil Alan
+0398. Desertis -> Kurak Çöl Sahası
+0399. Tundror  -> Donmuş Düzlük
+0400. Stepis   -> Kurak Otsu Düzlük
+
+--- IX. COĞRAFİ YAPILAR VE YÖNLER (GEOGRAPHY & DIRECTIONS) ---
+0401. Plainis  -> Geniş Düzlük Arazi
+0402. Valoris  -> Dağ Arası Vadisi
+0403. Kanyonis -> Derin Yarık Vadisi
+0404. Plator   -> Yüksek Düzlük
+0405. Montis   -> Yüksek Kaya Kütlesi
+0406. Nortis   -> Kuzey Yön Kutbu
+0407. Sutor    -> Güney Yön Kutbu
+0408. Estor    -> Doğu Yön Kutbu
+0409. Vestor   -> Batı Yön Kutbu
+0410. Sentris  -> Merkez Noktası
+0411. Edgor    -> En Dış Kenar
+0412. Bordor   -> Sınır Çizgisi
+0413. Marginis -> Sınır Payı
+0414. Rangor   -> Etki Mesafesi
+0415. Radius   -> Yarıçap Etki Alanı
+0416. Dimens   -> Boyutsal Düzlem
+0417. Paraler  -> Paralel Katman
+0418. Kontinu  -> Kesintisiz Akış
+0419. Anomali  -> Fiziksel/Siber Sapma
+0420. Distor   -> Kırılma / Bozulma
+0421. Warpor   -> Uzay-Zaman Bükülmesi
+0422. Vortex   -> Dönen Enerji Girdabı
+0423. Portalis -> Geçiş Geçidi
+0424. Neksur   -> Çapraz Bağlantı Merkezi
+0425. Antigrav -> Karşı Çekim Gücü
+0426. Subspas  -> Alt Boyut Alanı
+0427. Hiperis  -> Aşırı Hız/Boyut
+0428. Singul   -> Tekillik Noktası
+0429. Entropi  -> Düzensizlik Eğilimi
+0430. Negentrop-> Düzenlilik Eğilimi
+0431. Kuantis  -> Alt Parçacık Durumu
+0432. Entangl  -> Kuantum Dolanıklığı
+0433. Alfanis  -> Birinci Katman / Lider
+0434. Betaris  -> İkincil Deneme Katmanı
+0435. Gamaris  -> Yüksek Enerji Işınımı
+0436. Deltaris -> Değişim Miktarı
+0437. Epsilon  -> Çok Küçük Değer
+0438. Zetanis  -> Alt Sistem İşareti
+0439. Tetanis  -> Genişlik / Açı Birimi
+0440. Sigmaris -> Toplam Birim
+0441. Omegaris -> Son Katman / Bitiş
+0442. Polaris  -> Kutupsal Durum
+0443. Ekvator  -> Merkez Çizgisi
+0444. Tropikis -> Dönence Kuşağı
+0445. Stellaris-> Yıldız Odaklı Kök
+0446. Kosmik   -> Evrensel Ölçek
+0447. Planeta  -> Gezegensel Boyut
+0448. Astralis -> Boyutsal / Ruhsal
+0449. Keramik  -> Isıya Dayanıklı Katman
+0450. Polimer  -> Esnek Yapay Madde
+
+--- X. ENDÜSTRİ, ENERJİ VE MEKANİK (INDUSTRY & MECHANICS) ---
+0451. Komposit -> Karmaşık Malzeme
+0452. Glasor   -> Saydam Şeffaf Madde
+0453. Fibror   -> İnce Taşıyıcı Lif
+0454. Tubor    -> Silindirik Hat
+0455. Viror    -> İletken Tel
+0456. Kablor   -> Demet İletken Hat
+0457. Piplina  -> Dev Aktarım Hattı
+0458. Vakumor  -> Maddesiz Uzay Boşluğu
+0459. Ventis   -> Gaz / Enerji Çıkışı
+0460. Valvor   -> Vana / Akış Kontrolü
+0461. Pumpor   -> Sıvı / Gaz İticisi
+0462. Turbin   -> Dönel Güç Motoru
+0463. Pistonis -> Doğrusal İtici
+0464. Rotoris  -> Dönen Parça
+0465. Statoris -> Sabit Dış Parça
+0466. Enginor  -> Ana Termal Motor
+0467. Fuelis   -> Yanıcı Enerji
+0468. Bateri   -> Enerji Depolama Hücresi
+0469. Genera   -> Enerji Üretici
+0470. Konvert  -> Dönüştürücü
+0471. Transfo  -> Voltaj Değiştirici
+0472. Kapasit  -> Anlık Yük Deposu
+0473. Resistor -> Akım Sınırlayıcı
+0474. Diodis   -> Tek Yönlü İletken
+0475. Transis  -> Sinyal Anahtarı
+0476. Sirkut   -> Kapalı Elektrik Devresi
+0477. Sensor   -> Fiziksel Algılayıcı
+0478. Aktuator -> Fiziksel Tetikleyici
+0479. Relayis  -> Sinyal Aktarıcısı
+0480. Solenoid -> Elektromanyetik Valf
+0481. Inverter -> Doğru Akım Dönüştürücü
+0482. Fuseis   -> Güvenlik Sigortası
+0483. Breaker  -> Devre Kesici
+0484. Busbar   -> Ana Enerji Veri Yolu
+0485. Groundis -> Topraklama Hattı
+0486. Shieldor -> Kablo Ekranlama Koruma
+0487. Termina  -> Bağlantı Klemensi
+0488. Kontaktor-> Yüksek Akım Anahtarı
+0489. Microcon -> Mikrodenetleyici
+0490. Enkoder  -> Dönüş Sayıcı Algılayıcı
+0491. Stepor   -> Adım Motoru
+0492. Servor   -> Hassas Konum Motoru
+0493. Hydraul  -> Sıvı Basınçlı Güç
+0494. Pneumat  -> Gaz Basınçlı Güç
+0495. Gearis   -> Dişli Çark Aktarımı
+0496. Beltis   -> Taşıyıcı Kayış
+0497. Pulley   -> Kasnak Sistemi
+0498. Bearing  -> Bilyalı Rulman
+0499. Shaftor  -> Döner Güç Şaftı
+0500. Couplis  -> Şaft Bağlantı Kaplini
