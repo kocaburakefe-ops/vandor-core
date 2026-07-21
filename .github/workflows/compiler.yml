@@ -2,8 +2,7 @@ name: Vandor Core Auto-Compiler
 
 on:
   push:
-    paths:
-      - 'data/raw/**'
+    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
