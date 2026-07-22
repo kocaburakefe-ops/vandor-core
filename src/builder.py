@@ -32,7 +32,7 @@ GRAMMAR_RULES = {
 }
 
 def parse_txt_files(raw_dir: Path):
-    """raw/ içindeki .txt dosyalarını okuyup regex ile ayrıştırır."""
+    """raw/ içindeki tüm .txt dosyalarını okuyup regex ile ayrıştırır."""
     dictionary = []
     current_category = "General"
     global_id = 1
@@ -46,12 +46,10 @@ def parse_txt_files(raw_dir: Path):
                 if not line:
                     continue
 
-                # Kategori Başlıklarını Yakala (örn: --- I. SİSTEM... ---)
                 if line.startswith("---") and line.endswith("---"):
                     current_category = line.replace("-", "").strip()
                     continue
 
-                # Kelime Satırlarını Yakala (örn: 0001. Karnor -> Çekirdek...)
                 match = re.match(r"^\d+\.\s*([\w\-]+)\s*->\s*(.+)$", line)
                 if match:
                     root = match.group(1).strip()
@@ -73,8 +71,8 @@ def generate_markdown(dictionary, md_output: Path):
     md_output.parent.mkdir(parents=True, exist_ok=True)
     
     with open(md_output, "w", encoding="utf-8") as f:
-        f.write("# 📖 Vandor Core Dictionary & Grammar System\n\n")
-        f.write("Vandor'S dili için oluşturulmuş evrensel gramer kuralları ve kelime kökleri motorudur.\n\n")
+        f.write("# 📖 Vandor Core Dictionary & Grammar System (DENEME)\n\n")
+        f.write("Vandor'S dili için oluşturulmuş evrensel gramer kuralları ve test kelimeleri.\n\n")
         
         # 1. Gramer Bölümü
         f.write("## 🏛️ Gramer ve Dil Mimarisi\n\n")
@@ -107,8 +105,10 @@ def generate_markdown(dictionary, md_output: Path):
 
 def main():
     raw_dir = Path("data/raw")
-    json_output = Path("data/dictionary.json")
-    md_output = Path("docs/DICTIONARY.md")
+    
+    # 🔒 ORİJİNAL DOSYANA DOKUNMUYORUZ! Denemeler bu geçici dosyalara yazılır:
+    json_output = Path("data/temp_dictionary.json")
+    md_output = Path("docs/TEMP_DICTIONARY.md")
 
     if not raw_dir.exists():
         print("[-] data/raw klasörü bulunamadı!")
@@ -117,15 +117,15 @@ def main():
     dictionary = parse_txt_files(raw_dir)
     print(f"[+] Toplam {len(dictionary)} kelime ayrıştırıldı.")
 
-    # 1. JSON Çıktısı
+    # 1. Geçici JSON Çıktısı
     json_output.parent.mkdir(parents=True, exist_ok=True)
     with open(json_output, "w", encoding="utf-8") as f:
         json.dump(dictionary, f, ensure_ascii=False, indent=2)
 
-    # 2. Markdown Çıktısı
+    # 2. Geçici Markdown Çıktısı
     generate_markdown(dictionary, md_output)
 
-    print("[+] Derleme ve dokümantasyon başarıyla tamamlandı!")
+    print(f"[+] Deneme çıktısı üretildi: {json_output} ve {md_output}")
 
 if __name__ == "__main__":
     main()
