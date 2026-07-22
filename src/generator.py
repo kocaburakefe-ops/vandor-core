@@ -2,12 +2,32 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Vandor'S Phonetic & Sound Structure
-VOWELS = "aeiouyó"
+# 🏛️ Vandor'S Clean Phonetic Structure
+VOWELS = "aeiou"
 CONSONANTS = "bcdfghjklmnprstvwxz"
 
+# Bad endings and phonetic pairs filter
+BAD_ENDINGS = ("f", "g", "j", "v", "w", "y", "x")
+BAD_PAIRS = ["fd", "gv", "mj", "dv", "wg", "yv", "kv", "xv", "zm", "kc"]
+
+# 🌐 Global English Meanings & Categories
+CATEGORIES_WITH_MEANINGS = {
+    "VANDOR_SYSTEM_TECH": [
+        "Data Node", "Network Matrix", "Core Processor", "Signal Socket", 
+        "Subsystem Protocol", "Energy Cell", "Code Stream", "Terminal Interface"
+    ],
+    "VANDOR_COSMIC_SPACE": [
+        "Star Dust", "Orbital Layer", "Time Depth", "Distant Light", 
+        "Gravitational Field", "Cosmic Dust", "Celestial Body", "Void Dimension"
+    ],
+    "VANDOR_LOGIC_CONCEPT": [
+        "Core Logic", "Entity State", "Infinite Loop", "System Rule", 
+        "Observation Layer", "Abstract Structure", "Main Equation", "Transform Theory"
+    ]
+}
+
 def load_existing_roots(raw_dir: Path) -> set:
-    """Scans all existing .txt files to retrieve generated root words and avoid duplicates."""
+    """Scans all existing .txt files to prevent duplicates."""
     existing = set()
     if not raw_dir.exists():
         return existing
@@ -26,21 +46,31 @@ def load_existing_roots(raw_dir: Path) -> set:
     return existing
 
 def is_phonetically_valid(word: str) -> bool:
-    """Filter to prevent 3 consecutive vowels or consonants."""
+    """Strict phonetic validation for smooth pronunciation."""
     word_lower = word.lower()
+    
+    if word_lower.endswith(BAD_ENDINGS) and len(word_lower) <= 4:
+        return False
+        
+    for pair in BAD_PAIRS:
+        if pair in word_lower:
+            return False
+
     for i in range(len(word_lower) - 2):
         ch1, ch2, ch3 = word_lower[i], word_lower[i+1], word_lower[i+2]
         if (ch1 in VOWELS and ch2 in VOWELS and ch3 in VOWELS) or \
            (ch1 in CONSONANTS and ch2 in CONSONANTS and ch3 in CONSONANTS):
             return False
+            
     return True
 
 def generate_root() -> str:
-    """Generates rhythmic Vandor'S roots based on syllable patterns."""
+    """Generates high-quality Vandor'S roots."""
     patterns = [
-        ("C", "V", "C"),          # Ex: Kar, Vok, Zan
-        ("C", "V", "C", "C"),     # Ex: Karn, Vord, Zalm
-        ("C", "V", "C", "V", "C") # Ex: Karon, Vadir, Zelkor
+        ("C", "V", "C"),             # Ex: Kar, Vok, Zan
+        ("C", "V", "C", "C"),        # Ex: Karn, Vord, Zalm
+        ("C", "V", "C", "V", "C"),   # Ex: Karon, Vadir, Zelkor
+        ("V", "C", "V", "C")         # Ex: Alor, Evin, Odar
     ]
     
     while True:
@@ -65,21 +95,28 @@ def generate_batch(count=10000, batch_num=1):
     print(f"[+] Protected {len(existing_roots)} existing roots from duplication.")
     
     new_words = []
-    print(f"[+] Generating {count} unique Vandor'S roots...")
+    categories = list(CATEGORIES_WITH_MEANINGS.keys())
+    
+    print(f"[+] Generating {count} high-quality Vandor'S roots with English meanings...")
     
     while len(new_words) < count:
         root = generate_root()
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
-            new_words.append(root)
+            
+            # Select category and English meaning
+            cat = random.choice(categories)
+            meaning = random.choice(CATEGORIES_WITH_MEANINGS[cat])
+            
+            new_words.append((root, meaning, cat))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(f"--- GENERATED BATCH {batch_num:02d} ---\n")
-        for idx, root in enumerate(new_words, start=1):
-            # Clean English output format
-            f.write(f"{idx:05d}. {root} -> [Generated Root - Part {batch_num:02d}]\n")
+        for idx, (root, meaning, cat) in enumerate(new_words, start=1):
+            # Clean English output format with meanings
+            f.write(f"{idx:05d}. {root} -> {meaning} [{cat}]\n")
 
     print(f"[✔] BATCH {batch_num:02d} COMPLETED: {output_file} ({len(new_words)} roots written)")
 
