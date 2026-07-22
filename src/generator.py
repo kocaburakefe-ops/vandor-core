@@ -109,4 +109,10 @@ def generate_batch(count=50000, batch_num=1):
 if __name__ == "__main__":
     # Tek seferde 50.000 kelimelik 1. Part'ı üretir
     generate_batch(count=50000, batch_num=1)
+
+
+
+if __name__ == "__main__":
+    # Test için ilk etapta 5.000 kelime türetelim (Sistemi yormamak için)
+    generate_batch(count=5000, batch_num=1)
     
