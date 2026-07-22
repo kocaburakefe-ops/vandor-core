@@ -2,15 +2,13 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Vandor'S Estetik Ekleri (İngilizce kökü bozmayan akıcı ekler)
-ENGLISH_VANDOR_SUFFIXES = ["is", "or", "en", "ir", "ar"]
-
-# 🗣️ Doğrudan İngilizce Temel Kelimeler (Kelime Havuzu)
+# 🗣️ Zengin İngilizce Temel Kelime Listesi
 ENGLISH_CORE_WORDS = [
     "Stone", "Water", "Fire", "Moon", "Sun", "Light", "Mind", "Heart",
     "Star", "Night", "Day", "Wind", "Earth", "Life", "Time", "Word",
     "Voice", "Path", "House", "Peace", "Power", "Dream", "Shadow", "Flame",
-    "River", "Ocean", "Space", "Sound", "Truth", "Honor", "Vision", "Memory"
+    "River", "Ocean", "Space", "Sound", "Truth", "Honor", "Vision", "Memory",
+    "Glass", "Paper", "Steel", "Blood", "Cloud", "Storm", "Frost", "Rain"
 ]
 
 def load_existing_roots(raw_dir: Path) -> set:
@@ -31,16 +29,49 @@ def load_existing_roots(raw_dir: Path) -> set:
                         existing.add(root_part.lower())
     return existing
 
-def convert_to_vandor_english(word: str, suffix: str) -> str:
-    """İngilizce kelimeyi bozmadan Vandor'S formuna getirir."""
-    base = word.lower()
+def transform_to_vandor(word: str, rule_index: int) -> str:
+    """İngilizce kelimeyi 4 farklı doğal fonetik kuralına göre dönüştürür."""
+    w = word.lower()
     
-    # Kelime sonundaki e harfini temizleyip eki yapıştırır (Stone -> Ston + ir = Stonir)
-    if base.endswith("e"):
-        base = base[:-1]
-    
-    vandor_word = base + suffix
-    return vandor_word.capitalize()
+    # Kural 1: Sonundaki e/er eklerini yumuşatıp a/as yap (Water -> Watar, Stone -> Stana)
+    if rule_index % 4 == 0:
+        if w.endswith("er"):
+            res = w[:-2] + "ar"
+        elif w.endswith("e"):
+            res = w[:-1] + "a"
+        else:
+            res = w + "a"
+            
+    # Kural 2: 'ight' bitişlerini 'ytis', 'ind' bitişlerini 'mida' yap (Light -> Lytis, Mind -> Mida)
+    elif rule_index % 4 == 1:
+        if "ight" in w:
+            res = w.replace("ight", "ytis")
+        elif "ind" in w:
+            res = w.replace("ind", "mida")
+        elif w.endswith("e"):
+            res = w[:-1] + "is"
+        else:
+            res = w + "is"
+            
+    # Kural 3: Çift seslileri teke düşür ve 'en' ekle (Moon -> Monen, Rain -> Ranen)
+    elif rule_index % 4 == 2:
+        res = re.sub(r"(oo|ee|ai|ea)", lambda m: m.group(0)[0], w)
+        if res.endswith("e"):
+            res = res[:-1]
+        res = res + "en"
+        
+    # Kural 4: Kelimenin ortasındaki sesli harfi Vandor estetiğine kaydır (Fire -> Fira, Wind -> Wenda)
+    else:
+        if "i" in w:
+            res = w.replace("i", "e")
+        elif "o" in w:
+            res = w.replace("o", "a")
+        else:
+            res = w + "os"
+        if not res.endswith(("a", "e", "i", "o", "u", "s", "n")):
+            res += "a"
+
+    return res.capitalize()
 
 def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
@@ -52,29 +83,26 @@ def generate_batch(count=10000, batch_num=1):
     new_words = []
     total_base = len(ENGLISH_CORE_WORDS)
     
-    print(f"[+] {count} adet İngilizce tabanlı Vandor'S kökü üretiliyor...")
+    print(f"[+] {count} adet doğal İngilizce kaydırmalı Vandor'S kökü üretiliyor...")
     
     for idx in range(count):
-        # İngilizce kelimeyi ve eklenecek Vandor'S ekini seçer
         base_word = ENGLISH_CORE_WORDS[idx % total_base]
-        suffix = ENGLISH_VANDOR_SUFFIXES[(idx // total_base) % len(ENGLISH_VANDOR_SUFFIXES)]
+        rule_type = idx // total_base
         
-        vandor_root = convert_to_vandor_english(base_word, suffix)
+        vandor_root = transform_to_vandor(base_word, rule_type)
         
-        # Eğer aynısı daha önce üretilmediyse ekle
         if vandor_root.lower() not in existing_roots:
             existing_roots.add(vandor_root.lower())
             
-            # Varyasyon mantığı
-            variant = (idx // total_base) + 1
-            meaning_label = f"{base_word}" if variant == 1 else f"{base_word} (Type {variant})"
+            variant = rule_type + 1
+            meaning_label = f"{base_word}" if variant == 1 else f"{base_word} (Shift {variant})"
             
             new_words.append((vandor_root, meaning_label))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- VANDOR'S ENGLISH-BASED BATCH {batch_num:02d} ---\n")
+        f.write(f"--- VANDOR'S NATURAL ENGLISH SHIFT BATCH {batch_num:02d} ---\n")
         for i, (root, meaning) in enumerate(new_words, start=1):
             f.write(f"{i:05d}. {root} -> {meaning}\n")
 
