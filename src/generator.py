@@ -2,19 +2,32 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Akıcı & Kolay Telaffuz Edilen Harf Grupları (Sert harfler çıkarıldı)
-VOWELS = ["a", "e", "i", "o", "u"]
-START_CONSONANTS = ["b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "r", "s", "t", "v"]
-END_CONSONANTS = ["r", "l", "n", "s", "st", "nd"] # Sadece akıcı bitişler
+# 🏛️ Vandor'S Ritmik Bitiş Ekleri (Kelimeye Epik Havasını Veren Ekler)
+VANDOR_SUFFIXES = ["ar", "or", "is", "os", "en", "is", "an"]
 
-# 🗣️ İngilizce Temel Kelimeler Listesi
-ENGLISH_VOCAB = [
-    "Water", "Fire", "Sun", "Moon", "Sky", "Earth", "Light", "Time", "Space",
-    "Friend", "House", "Road", "Life", "Heart", "Mind", "Word", "Voice", "Soul",
-    "Hand", "Eye", "Night", "Day", "River", "Stone", "Wind", "Star", "Ocean",
-    "City", "Path", "Door", "Book", "Name", "Sound", "Peace", "Hope", "Dream",
-    "Force", "Power", "Truth", "Honor", "Vision", "Memory", "Shadow", "Flame"
-]
+# 🗣️ İngilizce / Latince Temelli Akılda Kalıcı Kelime Haritası
+BASE_WORD_MAP = {
+    "Stone": ["Ston", "Petr", "Rock"],
+    "Water": ["Watr", "Aqu", "Hydr"],
+    "Fire": ["Fyr", "Ign", "Pyro"],
+    "Moon": ["Mon", "Lun", "Cyn"],
+    "Sun": ["Sun", "Sol", "Hel"],
+    "Light": ["Lyt", "Lum", "Lux"],
+    "Mind": ["Mind", "Ment", "Psych"],
+    "Heart": ["Hart", "Cord", "Card"],
+    "Star": ["Star", "Astr", "Stell"],
+    "Night": ["Nyt", "Noct", "Nox"],
+    "Day": ["Day", "Diar", "Sol"],
+    "Wind": ["Wynd", "Vent", "Aeol"],
+    "Earth": ["Erth", "Terr", "Geor"],
+    "Life": ["Lyf", "Vita", "Bio"],
+    "Time": ["Tym", "Chron", "Temp"],
+    "Word": ["Word", "Verb", "Ligo"],
+    "Voice": ["Voys", "Phon", "Voc"],
+    "Path": ["Path", "Viar", "Rout"],
+    "House": ["Hous", "Dom", "Cas"],
+    "Peace": ["Pes", "Pac", "Pax"]
+}
 
 def load_existing_roots(raw_dir: Path) -> set:
     existing = set()
@@ -34,21 +47,16 @@ def load_existing_roots(raw_dir: Path) -> set:
                         existing.add(root_part.lower())
     return existing
 
-def generate_melodic_word() -> str:
-    """İngilizce/Latinceye benzeyen, okunması aşırı kolay kelimeler üretir."""
-    patterns = [
-        # Örn: Lora, Mina, Tora, Fala
-        lambda: random.choice(START_CONSONANTS) + random.choice(VOWELS) + random.choice(START_CONSONANTS) + random.choice(VOWELS),
-        # Örn: Solen, Merin, Valor, Karon
-        lambda: random.choice(START_CONSONANTS) + random.choice(VOWELS) + random.choice(START_CONSONANTS) + random.choice(VOWELS) + random.choice(END_CONSONANTS),
-        # Örn: Aris, Elor, Onis, Astan
-        lambda: random.choice(VOWELS) + random.choice(START_CONSONANTS) + random.choice(VOWELS) + random.choice(END_CONSONANTS),
-        # Örn: Crest, Land, Torst
-        lambda: random.choice(START_CONSONANTS) + random.choice(VOWELS) + random.choice(END_CONSONANTS)
-    ]
+def generate_intuitive_word(english_word: str) -> str:
+    """İngilizce/Latince köklerden türeyen, akılda kalıcı Vandor'S kelimesi üretir."""
+    base_options = BASE_WORD_MAP.get(english_word, [english_word[:4]])
+    base = random.choice(base_options)
+    suffix = random.choice(VANDOR_SUFFIXES)
     
-    word = random.choice(patterns)()
-    return word.capitalize()
+    # Çift sesli veya garip harf çakışmalarını temizle
+    full_word = base + suffix
+    full_word = re.sub(r"(.)\1{2,}", r"\1", full_word) # Aynı harf 3 kere gelemez
+    return full_word.capitalize()
 
 def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
@@ -58,30 +66,33 @@ def generate_batch(count=10000, batch_num=1):
     existing_roots = load_existing_roots(raw_dir)
     
     new_words = []
-    vocab_size = len(ENGLISH_VOCAB)
+    english_keys = list(BASE_WORD_MAP.keys())
     
-    print(f"[+] Generating {count} clean and melodic Vandor'S roots...")
+    print(f"[+] Generating {count} intuitive Vandor'S roots...")
     
-    while len(new_words) < count:
-        root = generate_melodic_word()
+    attempts = 0
+    while len(new_words) < count and attempts < count * 10:
+        attempts += 1
+        english_word = english_keys[len(new_words) % len(english_keys)]
+        root = generate_intuitive_word(english_word)
+        
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
             
-            # Anlam ataması
-            base_meaning = ENGLISH_VOCAB[len(new_words) % vocab_size]
-            meaning_suffix = f" (Root Type {len(new_words) // vocab_size + 1})" if len(new_words) >= vocab_size else ""
-            full_meaning = f"{base_meaning}{meaning_suffix}"
+            # Anlam formatı
+            variant = (len(new_words) // len(english_keys)) + 1
+            meaning = f"{english_word}" if variant == 1 else f"{english_word} (Variant {variant})"
             
-            new_words.append((root, full_meaning))
+            new_words.append((root, meaning))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- VANDOR'S MELODIC BATCH {batch_num:02d} ---\n")
+        f.write(f"--- VANDOR'S EASY-RECALL BATCH {batch_num:02d} ---\n")
         for idx, (root, meaning) in enumerate(new_words, start=1):
             f.write(f"{idx:05d}. {root} -> {meaning}\n")
 
-    print(f"[✔] BATCH {batch_num:02d} COMPLETED: {output_file} ({len(new_words)} smooth roots written)")
+    print(f"[✔] COMPLETED: {output_file} ({len(new_words)} intuitive roots written)")
 
 if __name__ == "__main__":
     generate_batch(count=10000, batch_num=1)
