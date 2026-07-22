@@ -2,32 +2,16 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Vandor'S Ritmik Bitiş Ekleri (Kelimeye Epik Havasını Veren Ekler)
-VANDOR_SUFFIXES = ["ar", "or", "is", "os", "en", "is", "an"]
+# 🏛️ Vandor'S Estetik Ekleri (İngilizce kökü bozmayan akıcı ekler)
+ENGLISH_VANDOR_SUFFIXES = ["is", "or", "en", "ir", "ar"]
 
-# 🗣️ İngilizce / Latince Temelli Akılda Kalıcı Kelime Haritası
-BASE_WORD_MAP = {
-    "Stone": ["Ston", "Petr", "Rock"],
-    "Water": ["Watr", "Aqu", "Hydr"],
-    "Fire": ["Fyr", "Ign", "Pyro"],
-    "Moon": ["Mon", "Lun", "Cyn"],
-    "Sun": ["Sun", "Sol", "Hel"],
-    "Light": ["Lyt", "Lum", "Lux"],
-    "Mind": ["Mind", "Ment", "Psych"],
-    "Heart": ["Hart", "Cord", "Card"],
-    "Star": ["Star", "Astr", "Stell"],
-    "Night": ["Nyt", "Noct", "Nox"],
-    "Day": ["Day", "Diar", "Sol"],
-    "Wind": ["Wynd", "Vent", "Aeol"],
-    "Earth": ["Erth", "Terr", "Geor"],
-    "Life": ["Lyf", "Vita", "Bio"],
-    "Time": ["Tym", "Chron", "Temp"],
-    "Word": ["Word", "Verb", "Ligo"],
-    "Voice": ["Voys", "Phon", "Voc"],
-    "Path": ["Path", "Viar", "Rout"],
-    "House": ["Hous", "Dom", "Cas"],
-    "Peace": ["Pes", "Pac", "Pax"]
-}
+# 🗣️ Doğrudan İngilizce Temel Kelimeler (Kelime Havuzu)
+ENGLISH_CORE_WORDS = [
+    "Stone", "Water", "Fire", "Moon", "Sun", "Light", "Mind", "Heart",
+    "Star", "Night", "Day", "Wind", "Earth", "Life", "Time", "Word",
+    "Voice", "Path", "House", "Peace", "Power", "Dream", "Shadow", "Flame",
+    "River", "Ocean", "Space", "Sound", "Truth", "Honor", "Vision", "Memory"
+]
 
 def load_existing_roots(raw_dir: Path) -> set:
     existing = set()
@@ -47,61 +31,59 @@ def load_existing_roots(raw_dir: Path) -> set:
                         existing.add(root_part.lower())
     return existing
 
-def generate_intuitive_word(english_word: str) -> str:
-    """İngilizce/Latince köklerden türeyen, akılda kalıcı Vandor'S kelimesi üretir."""
-    base_options = BASE_WORD_MAP.get(english_word, [english_word[:4]])
-    base = random.choice(base_options)
-    suffix = random.choice(VANDOR_SUFFIXES)
+def convert_to_vandor_english(word: str, suffix: str) -> str:
+    """İngilizce kelimeyi bozmadan Vandor'S formuna getirir."""
+    base = word.lower()
     
-    # Çift sesli veya garip harf çakışmalarını temizle
-    full_word = base + suffix
-    full_word = re.sub(r"(.)\1{2,}", r"\1", full_word) # Aynı harf 3 kere gelemez
-    return full_word.capitalize()
+    # Kelime sonundaki e harfini temizleyip eki yapıştırır (Stone -> Ston + ir = Stonir)
+    if base.endswith("e"):
+        base = base[:-1]
+    
+    vandor_word = base + suffix
+    return vandor_word.capitalize()
 
 def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
-    print("[+] Scanning database...")
+    print("[+] Database taranıyor...")
     existing_roots = load_existing_roots(raw_dir)
     
     new_words = []
-    english_keys = list(BASE_WORD_MAP.keys())
+    total_base = len(ENGLISH_CORE_WORDS)
     
-    print(f"[+] Generating {count} intuitive Vandor'S roots...")
+    print(f"[+] {count} adet İngilizce tabanlı Vandor'S kökü üretiliyor...")
     
-    attempts = 0
-    while len(new_words) < count and attempts < count * 10:
-        attempts += 1
-        english_word = english_keys[len(new_words) % len(english_keys)]
-        root = generate_intuitive_word(english_word)
+    for idx in range(count):
+        # İngilizce kelimeyi ve eklenecek Vandor'S ekini seçer
+        base_word = ENGLISH_CORE_WORDS[idx % total_base]
+        suffix = ENGLISH_VANDOR_SUFFIXES[(idx // total_base) % len(ENGLISH_VANDOR_SUFFIXES)]
         
-        if root.lower() not in existing_roots:
-            existing_roots.add(root.lower())
+        vandor_root = convert_to_vandor_english(base_word, suffix)
+        
+        # Eğer aynısı daha önce üretilmediyse ekle
+        if vandor_root.lower() not in existing_roots:
+            existing_roots.add(vandor_root.lower())
             
-            # Anlam formatı
-            variant = (len(new_words) // len(english_keys)) + 1
-            meaning = f"{english_word}" if variant == 1 else f"{english_word} (Variant {variant})"
+            # Varyasyon mantığı
+            variant = (idx // total_base) + 1
+            meaning_label = f"{base_word}" if variant == 1 else f"{base_word} (Type {variant})"
             
-            new_words.append((root, meaning))
+            new_words.append((vandor_root, meaning_label))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- VANDOR'S EASY-RECALL BATCH {batch_num:02d} ---\n")
-        for idx, (root, meaning) in enumerate(new_words, start=1):
-            f.write(f"{idx:05d}. {root} -> {meaning}\n")
+        f.write(f"--- VANDOR'S ENGLISH-BASED BATCH {batch_num:02d} ---\n")
+        for i, (root, meaning) in enumerate(new_words, start=1):
+            f.write(f"{i:05d}. {root} -> {meaning}\n")
 
-    print(f"[✔] COMPLETED: {output_file} ({len(new_words)} intuitive roots written)")
-
+    print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
 
 if __name__ == "__main__":
     raw_dir = Path("data/raw")
-    # Mevcut batch dosyalarını sayıp otomatik bir sonraki part numarasını verir
     existing_batches = len(list(raw_dir.glob("generated_*.txt"))) if raw_dir.exists() else 0
     next_batch = existing_batches + 1
     
-    print(f"[🚀] Part {next_batch:02d} üretimi başlatılıyor...")
     generate_batch(count=10000, batch_num=next_batch)
-    
     
