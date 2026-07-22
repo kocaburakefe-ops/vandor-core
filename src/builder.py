@@ -46,10 +46,12 @@ def parse_txt_files(raw_dir: Path):
                 if not line:
                     continue
 
+                # Kategori Başlıklarını Yakala (örn: --- I. SİSTEM... ---)
                 if line.startswith("---") and line.endswith("---"):
                     current_category = line.replace("-", "").strip()
                     continue
 
+                # Kelime Satırlarını Yakala (örn: 0001. Karnor -> Çekirdek...)
                 match = re.match(r"^\d+\.\s*([\w\-]+)\s*->\s*(.+)$", line)
                 if match:
                     root = match.group(1).strip()
