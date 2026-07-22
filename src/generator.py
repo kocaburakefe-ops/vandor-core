@@ -1,29 +1,24 @@
 import random
 import re
+import urllib.request
 from pathlib import Path
 
-# 🗣️ Zenginleştirilmiş Geniş İngilizce Kelime Havuzu
-ENGLISH_CORE_WORDS = [
-    # Doğa & Evren
-    "Stone", "Water", "Fire", "Moon", "Sun", "Light", "Mind", "Heart",
-    "Star", "Night", "Day", "Wind", "Earth", "Life", "Time", "Word",
-    "Voice", "Path", "House", "Peace", "Power", "Dream", "Shadow", "Flame",
-    "River", "Ocean", "Space", "Sound", "Truth", "Honor", "Vision", "Memory",
-    "Glass", "Paper", "Steel", "Blood", "Cloud", "Storm", "Frost", "Rain",
-    "Mountain", "Forest", "Valley", "Desert", "Island", "Wave", "Thunder", "Lightning",
-    "Gold", "Silver", "Iron", "Copper", "Crystal", "Smoke", "Ash", "Ice",
-    
-    # İnsan & Yaşam
-    "Friend", "Brother", "Sister", "Mother", "Father", "Child", "King", "Queen",
-    "Warrior", "Leader", "Master", "Hero", "Ghost", "Spirit", "Body", "Soul",
-    "Hand", "Eye", "Head", "Foot", "Face", "Blood", "Bone", "Breath",
-    "City", "Town", "Bridge", "Tower", "Gate", "Door", "Wall", "Room",
-    
-    # Eylemler & Kavramlar
-    "Hope", "Love", "Fear", "War", "Faith", "Force", "Will", "Thought",
-    "Reason", "Wisdom", "Knowledge", "Secret", "Mystery", "Destiny", "Fate", "Glory",
-    "Victory", "Justice", "Freedom", "Order", "Chaos", "Harmony", "Silence", "Echo"
-]
+def get_large_english_vocab() -> list:
+    """GitHub üzerindeki 10.000 kelimelik listeden veriyi çeker."""
+    url = "https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa-no-swears.txt"
+    try:
+        print("[+] Dev İngilizce kelime havuzu indiriliyor...")
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+        with urllib.request.urlopen(req, timeout=10) as response:
+            words = response.read().decode('utf-8').splitlines()
+            clean_words = [w.capitalize() for w in words if len(w) >= 3]
+            print(f"[✔] {len(clean_words)} adet İngilizce kelime hafızaya yüklendi!")
+            return clean_words
+    except Exception as e:
+        print(f"[!] İnternet indirilemedi, dahili geniş yedek listeye geçiliyor...")
+        return ["Stone", "Water", "Fire", "Moon", "Sun", "Light", "Mind", "Heart", "Star", "Night", "Wind", "Earth", "Life", "Time", "Cloud", "Storm"]
+
+ENGLISH_CORE_WORDS = get_large_english_vocab()
 
 def load_existing_roots(raw_dir: Path) -> set:
     existing = set()
@@ -44,60 +39,30 @@ def load_existing_roots(raw_dir: Path) -> set:
     return existing
 
 def transform_to_vandor(word: str, rule_index: int) -> str:
-    """İngilizce kelimeyi doğal Vandor'S fonetik kurallarına göre kaydırır."""
+    """İngilizce kelimeyi Vandor'S fonetiğine kaydırır."""
     w = word.lower()
     
-    # Kural 0: Sonundaki e/er yumuşatması (Water -> Watar, Stone -> Stana)
-    if rule_index % 6 == 0:
-        if w.endswith("er"):
-            res = w[:-2] + "ar"
-        elif w.endswith("e"):
-            res = w[:-1] + "a"
-        else:
-            res = w + "a"
-            
-    # Kural 1: -is / -ytis dönüşümü (Light -> Lytis, Mind -> Mida)
-    elif rule_index % 6 == 1:
-        if "ight" in w:
-            res = w.replace("ight", "ytis")
-        elif "ind" in w:
-            res = w.replace("ind", "mida")
-        elif w.endswith("e"):
-            res = w[:-1] + "is"
-        else:
-            res = w + "is"
-            
-    # Kural 2: Çift sesli sadeleştirmesi ve -en eki (Moon -> Monen, Rain -> Ranen)
-    elif rule_index % 6 == 2:
+    # Esnek kurallar
+    r = rule_index % 6
+    if r == 0:
+        res = (w[:-2] + "ar") if w.endswith("er") else ((w[:-1] + "a") if w.endswith("e") else w + "a")
+    elif r == 1:
+        res = w.replace("ight", "ytis").replace("ind", "mida") if ("ight" in w or "ind" in w) else ((w[:-1] + "is") if w.endswith("e") else w + "is")
+    elif r == 2:
         res = re.sub(r"(oo|ee|ai|ea|ou)", lambda m: m.group(0)[0], w)
-        if res.endswith("e"):
-            res = res[:-1]
-        res = res + "en"
-        
-    # Kural 3: Sesli harf kaydırması (Fire -> Fira, Wind -> Wenda)
-    elif rule_index % 6 == 3:
-        if "i" in w:
-            res = w.replace("i", "e")
-        elif "o" in w:
-            res = w.replace("o", "a")
-        else:
-            res = w + "os"
-        if not res.endswith(("a", "e", "i", "o", "u", "s", "n")):
-            res += "a"
-            
-    # Kural 4: Akıcı -or / -ar ritmik uzatması (Star -> Staron, Heart -> Hartor)
-    elif rule_index % 6 == 4:
-        if w.endswith("e"):
-            res = w[:-1] + "or"
-        else:
-            res = w + "or"
-            
-    # Kural 5: Akıcı -in / -is yumuşak türetimi (Storm -> Storin, Frost -> Frostis)
+        res = (res[:-1] if res.endswith("e") else res) + "en"
+    elif r == 3:
+        res = w.replace("i", "e").replace("o", "a") if ("i" in w or "o" in w) else w + "os"
+        if not res.endswith(("a", "e", "i", "o", "u", "s", "n")): res += "a"
+    elif r == 4:
+        res = (w[:-1] + "or") if w.endswith("e") else w + "or"
     else:
-        if w.endswith("e"):
-            res = w[:-1] + "in"
-        else:
-            res = w + "in"
+        res = (w[:-1] + "in") if w.endswith("e") else w + "in"
+
+    # Eğer çok fazla tekrar ettiyse kelime sonuna ritmik hece atarak kilitlenmeyi önler
+    if rule_index >= 6:
+        extra_suffixes = ["is", "on", "ar", "en", "or"]
+        res += extra_suffixes[(rule_index // 6) % len(extra_suffixes)]
 
     return res.capitalize()
 
@@ -111,10 +76,14 @@ def generate_batch(count=10000, batch_num=1):
     new_words = []
     total_base = len(ENGLISH_CORE_WORDS)
     
-    print(f"[+] {count} adet genişletilmiş İngilizce kaydırmalı Vandor'S kökü üretiliyor...")
+    print(f"[+] {count} adet Vandor'S kökü üretiliyor...")
     
     idx = 0
-    while len(new_words) < count:
+    max_attempts = count * 20  # Sonsuz döngü koruması
+    attempts = 0
+    
+    while len(new_words) < count and attempts < max_attempts:
+        attempts += 1
         base_word = ENGLISH_CORE_WORDS[idx % total_base]
         rule_type = idx // total_base
         
@@ -122,17 +91,15 @@ def generate_batch(count=10000, batch_num=1):
         
         if vandor_root.lower() not in existing_roots:
             existing_roots.add(vandor_root.lower())
-            
             variant = rule_type + 1
             meaning_label = f"{base_word}" if variant == 1 else f"{base_word} (Shift {variant})"
-            
             new_words.append((vandor_root, meaning_label))
         idx += 1
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- VANDOR'S EXTENDED ENGLISH SHIFT BATCH {batch_num:02d} ---\n")
+        f.write(f"--- VANDOR'S BATCH {batch_num:02d} ---\n")
         for i, (root, meaning) in enumerate(new_words, start=1):
             f.write(f"{i:05d}. {root} -> {meaning}\n")
 
@@ -142,6 +109,5 @@ if __name__ == "__main__":
     raw_dir = Path("data/raw")
     existing_batches = len(list(raw_dir.glob("generated_*.txt"))) if raw_dir.exists() else 0
     next_batch = existing_batches + 1
-    
     generate_batch(count=10000, batch_num=next_batch)
     
