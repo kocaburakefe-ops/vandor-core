@@ -1,0 +1,85 @@
+--- VANDOR'S EASY-RECALL BATCH 02 ---
+00001. Petrar -> Stone
+00002. Aquen -> Water
+00003. Ignos -> Fire
+00004. Monar -> Moon
+00005. Helar -> Sun
+00006. Luman -> Light
+00007. Psychos -> Mind
+00008. Hartar -> Heart
+00009. Stellor -> Star
+00010. Nyten -> Night
+00011. Solis -> Day
+00012. Wyndos -> Wind
+00013. Georos -> Earth
+00014. Bioar -> Life
+00015. Tymos -> Time
+00016. Verbis -> Word
+00017. Voysos -> Voice
+00018. Routor -> Path
+00019. Housar -> House
+00020. Pacos -> Peace
+00021. Stonor -> Stone (Variant 2)
+00022. Hydror -> Water (Variant 2)
+00023. Ignor -> Fire (Variant 2)
+00024. Cynis -> Moon (Variant 2)
+00025. Solen -> Sun (Variant 2)
+00026. Lumar -> Light (Variant 2)
+00027. Mindan -> Mind (Variant 2)
+00028. Cardis -> Heart (Variant 2)
+00029. Stellan -> Star (Variant 2)
+00030. Noxis -> Night (Variant 2)
+00031. Diaran -> Day (Variant 2)
+00032. Ventan -> Wind (Variant 2)
+00033. Erthar -> Earth (Variant 2)
+00034. Vitaan -> Life (Variant 2)
+00035. Tyman -> Time (Variant 2)
+00036. Wordos -> Word (Variant 2)
+00037. Vocor -> Voice (Variant 2)
+00038. Pathis -> Path (Variant 2)
+00039. Casan -> House (Variant 2)
+00040. Pacan -> Peace (Variant 2)
+00041. Rocken -> Stone (Variant 3)
+00042. Hydros -> Water (Variant 3)
+00043. Ignen -> Fire (Variant 3)
+00044. Lunor -> Moon (Variant 3)
+00045. Sunis -> Sun (Variant 3)
+00046. Lumen -> Light (Variant 3)
+00047. Psychar -> Mind (Variant 3)
+00048. Cordor -> Heart (Variant 3)
+00049. Astrar -> Star (Variant 3)
+00050. Noctor -> Night (Variant 3)
+00051. Diaros -> Day (Variant 3)
+00052. Aeolen -> Wind (Variant 3)
+00053. Erthos -> Earth (Variant 3)
+00054. Lyfen -> Life (Variant 3)
+00055. Tempos -> Time (Variant 3)
+00056. Ligoos -> Word (Variant 3)
+00057. Vocis -> Voice (Variant 3)
+00058. Pathen -> Path (Variant 3)
+00059. Housan -> House (Variant 3)
+00060. Paxis -> Peace (Variant 3)
+00061. Stonan -> Stone (Variant 4)
+00062. Aquos -> Water (Variant 4)
+00063. Pyroar -> Fire (Variant 4)
+00064. Monos -> Moon (Variant 4)
+00065. Sunar -> Sun (Variant 4)
+00066. Lytar -> Light (Variant 4)
+00067. Mentar -> Mind (Variant 4)
+00068. Hartos -> Heart (Variant 4)
+00069. Staros -> Star (Variant 4)
+00070. Noctan -> Night (Variant 4)
+00071. Diarar -> Day (Variant 4)
+00072. Ventar -> Wind (Variant 4)
+00073. Georen -> Earth (Variant 4)
+00074. Vitaen -> Life (Variant 4)
+00075. Chronar -> Time (Variant 4)
+00076. Ligoor -> Word (Variant 4)
+00077. Vocen -> Voice (Variant 4)
+00078. Pathor -> Path (Variant 4)
+00079. Casis -> House (Variant 4)
+00080. Pacen -> Peace (Variant 4)
+00081. Petros -> Stone (Variant 5)
+00082. Aquan -> Water (Variant 5)
+00083. Pyroen -> Fire (Variant 5)
+00084. Lunos -> Moon (Variant 5)
