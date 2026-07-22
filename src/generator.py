@@ -105,10 +105,11 @@ def generate_batch(count=10000, batch_num=1):
 
     print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
 
+
 if __name__ == "__main__":
     raw_dir = Path("data/raw")
     
-    # Klasördeki mevcut generated_XX.txt dosyalarından en büyük numarayı bulur
+    # Mevcut batch numaralarını tara
     existing_numbers = []
     if raw_dir.exists():
         for f in raw_dir.glob("generated_*.txt"):
@@ -118,6 +119,12 @@ if __name__ == "__main__":
                 
     next_batch = max(existing_numbers) + 1 if existing_numbers else 1
     
-    print(f"[+] Yeni Batch Numarası: {next_batch:02d}")
-    generate_batch(count=10000, batch_num=next_batch)
+    # 🎯 1 MİLYON KELİME FREN SİSTEMİ (100 Batch = 1.000.000 Kelime)
+    MAX_BATCH_COUNT = 100
     
+    if next_batch > MAX_BATCH_COUNT:
+        print(f"[🛑] HEDEF ULAŞILDI: Toplam {MAX_BATCH_COUNT} batch (1.000.000 kelime) üretildi. Üretim durduruldu!")
+    else:
+        print(f"[+] Yeni Batch Numarası: {next_batch:02d} / {MAX_BATCH_COUNT}")
+        generate_batch(count=10000, batch_num=next_batch)
+        
