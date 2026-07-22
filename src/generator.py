@@ -2,26 +2,12 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Vandor'S Fonetik ve Ses Yapısı
+# 🏛️ Vandor'S Phonetic & Sound Structure
 VOWELS = "aeiouyó"
 CONSONANTS = "bcdfghjklmnprstvwxz"
 
-CATEGORIES_WITH_MEANINGS = {
-    "VANDOR_TEKNOLOJI_SISTEM": [
-        "Veri Düğümü", "Ağ Matrisi", "İşlem Çekirdeği", "Sinyal Yuvası", 
-        "Alt Sistem Protokolü", "Enerji Hücresi", "Kod Akışı", "Terminal Arayüzü"
-    ],
-    "VANDOR_EVREN_KAVRAM": [
-        "Yıldız Tozu", "Yörünge Katmanı", "Zaman Derinliği", "Uzak Işık", 
-        "Çekim Alanı", "Kozmik Toz", "Gök Cismi", "Boşluk Boyutu"
-    ],
-    "VANDOR_FELSEFE_YAZILIM": [
-        "Temel Mantık", "Varlık Durumu", "Sonsuz Döngü", "Sistem Kuralı", 
-        "Gözlem Katmanı", "Soyut Yapı", "Ana Denklem", "Dönüşüm Kuramı"
-    ]
-}
-
 def load_existing_roots(raw_dir: Path) -> set:
+    """Scans all existing .txt files to retrieve generated root words and avoid duplicates."""
     existing = set()
     if not raw_dir.exists():
         return existing
@@ -40,6 +26,7 @@ def load_existing_roots(raw_dir: Path) -> set:
     return existing
 
 def is_phonetically_valid(word: str) -> bool:
+    """Filter to prevent 3 consecutive vowels or consonants."""
     word_lower = word.lower()
     for i in range(len(word_lower) - 2):
         ch1, ch2, ch3 = word_lower[i], word_lower[i+1], word_lower[i+2]
@@ -49,10 +36,11 @@ def is_phonetically_valid(word: str) -> bool:
     return True
 
 def generate_root() -> str:
+    """Generates rhythmic Vandor'S roots based on syllable patterns."""
     patterns = [
-        ("C", "V", "C"),
-        ("C", "V", "C", "C"),
-        ("C", "V", "C", "V", "C")
+        ("C", "V", "C"),          # Ex: Kar, Vok, Zan
+        ("C", "V", "C", "C"),     # Ex: Karn, Vord, Zalm
+        ("C", "V", "C", "V", "C") # Ex: Karon, Vadir, Zelkor
     ]
     
     while True:
@@ -72,34 +60,28 @@ def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
-    print("[+] Veritabanı taranıyor...")
+    print("[+] Scanning existing database...")
     existing_roots = load_existing_roots(raw_dir)
-    print(f"[+] Mevcut {len(existing_roots)} kelime çakışma korumasına alındı.")
+    print(f"[+] Protected {len(existing_roots)} existing roots from duplication.")
     
     new_words = []
-    categories = list(CATEGORIES_WITH_MEANINGS.keys())
-    
-    print(f"[+] {count} adet benzersiz Vandor'S kökü üretiliyor...")
+    print(f"[+] Generating {count} unique Vandor'S roots...")
     
     while len(new_words) < count:
         root = generate_root()
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
-            
-            cat = random.choice(categories)
-            meaning_base = random.choice(CATEGORIES_WITH_MEANINGS[cat])
-            meaning_full = f"{meaning_base} (Part {batch_num:02d})"
-            
-            new_words.append((root, meaning_full, cat))
+            new_words.append(root)
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(f"--- GENERATED BATCH {batch_num:02d} ---\n")
-        for idx, (root, meaning, cat) in enumerate(new_words, start=1):
-            f.write(f"{idx:05d}. {root} -> {meaning} [{cat}]\n")
+        for idx, root in enumerate(new_words, start=1):
+            # Clean English output format
+            f.write(f"{idx:05d}. {root} -> [Generated Root - Part {batch_num:02d}]\n")
 
-    print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
+    print(f"[✔] BATCH {batch_num:02d} COMPLETED: {output_file} ({len(new_words)} roots written)")
 
 if __name__ == "__main__":
     generate_batch(count=10000, batch_num=1)
