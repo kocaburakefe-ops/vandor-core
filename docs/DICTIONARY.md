@@ -35,7 +35,7 @@ Vandor'S dili için oluşturulmuş evrensel gramer kuralları ve kelime kökleri
 ## 📚 Kelime Kökleri (Toplam: 1500)
 
 | ID | Kök (Root) | Türkçe Anlamı | Kategori |
-|:---|:---|:---|:---|
+|:---|:---|:---|:---|:
 | 1 | **Karnor** | Çekirdek / Sistem Mantığı (Kernel) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
 | 2 | **Dataron** | İşlenecek Ham Veri (Data) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
 | 3 | **Netris** | Ağ Matrisi / Bağlantı Sahası (Network) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
