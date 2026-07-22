@@ -1,0 +1,98 @@
+--- VANDOR'S NATURAL ENGLISH SHIFT BATCH 04 ---
+00001. Stona -> Stone
+00002. Watar -> Water
+00003. Fira -> Fire
+00004. Moona -> Moon
+00005. Suna -> Sun
+00006. Lighta -> Light
+00007. Minda -> Mind
+00008. Hearta -> Heart
+00009. Stara -> Star
+00010. Nighta -> Night
+00011. Daya -> Day
+00012. Winda -> Wind
+00013. Eartha -> Earth
+00014. Lifa -> Life
+00015. Tima -> Time
+00016. Worda -> Word
+00017. Voica -> Voice
+00018. Patha -> Path
+00019. Housa -> House
+00020. Peaca -> Peace
+00021. Powar -> Power
+00022. Dreama -> Dream
+00023. Shadowa -> Shadow
+00024. Flama -> Flame
+00025. Rivar -> River
+00026. Oceana -> Ocean
+00027. Spaca -> Space
+00028. Sounda -> Sound
+00029. Trutha -> Truth
+00030. Honora -> Honor
+00031. Visiona -> Vision
+00032. Memorya -> Memory
+00033. Glassa -> Glass
+00034. Papar -> Paper
+00035. Steela -> Steel
+00036. Blooda -> Blood
+00037. Clouda -> Cloud
+00038. Storma -> Storm
+00039. Frosta -> Frost
+00040. Raina -> Rain
+00041. Mmida -> Mind (Shift 2)
+00042. Wmida -> Wind (Shift 2)
+00043. Glassis -> Glass (Shift 2)
+00044. Paperis -> Paper (Shift 2)
+00045. Steelis -> Steel (Shift 2)
+00046. Bloodis -> Blood (Shift 2)
+00047. Cloudis -> Cloud (Shift 2)
+00048. Rainis -> Rain (Shift 2)
+00049. Herten -> Heart (Shift 3)
+00050. Pecen -> Peace (Shift 3)
+00051. Dremen -> Dream (Shift 3)
+00052. Ocenen -> Ocean (Shift 3)
+00053. Glassen -> Glass (Shift 3)
+00054. Paperen -> Paper (Shift 3)
+00055. Stelen -> Steel (Shift 3)
+00056. Bloden -> Blood (Shift 3)
+00057. Clouden -> Cloud (Shift 3)
+00058. Stormen -> Storm (Shift 3)
+00059. Frosten -> Frost (Shift 3)
+00060. Ranen -> Rain (Shift 3)
+00061. Stane -> Stone (Shift 4)
+00062. Wateros -> Water (Shift 4)
+00063. Fere -> Fire (Shift 4)
+00064. Maan -> Moon (Shift 4)
+00065. Leghta -> Light (Shift 4)
+00066. Menda -> Mind (Shift 4)
+00067. Heartos -> Heart (Shift 4)
+00068. Neghta -> Night (Shift 4)
+00069. Wenda -> Wind (Shift 4)
+00070. Earthos -> Earth (Shift 4)
+00071. Lefe -> Life (Shift 4)
+00072. Teme -> Time (Shift 4)
+00073. Warda -> Word (Shift 4)
+00074. Voece -> Voice (Shift 4)
+00075. Pathos -> Path (Shift 4)
+00076. Hause -> House (Shift 4)
+00077. Peaceos -> Peace (Shift 4)
+00078. Pawera -> Power (Shift 4)
+00079. Dreamos -> Dream (Shift 4)
+00080. Shadawa -> Shadow (Shift 4)
+00081. Flameos -> Flame (Shift 4)
+00082. Revera -> River (Shift 4)
+00083. Acean -> Ocean (Shift 4)
+00084. Spaceos -> Space (Shift 4)
+00085. Saunda -> Sound (Shift 4)
+00086. Truthos -> Truth (Shift 4)
+00087. Hanara -> Honor (Shift 4)
+00088. Veseon -> Vision (Shift 4)
+00089. Memarya -> Memory (Shift 4)
+00090. Glassos -> Glass (Shift 4)
+00091. Paperos -> Paper (Shift 4)
+00092. Steelos -> Steel (Shift 4)
+00093. Blaada -> Blood (Shift 4)
+00094. Clauda -> Cloud (Shift 4)
+00095. Starma -> Storm (Shift 4)
+00096. Frasta -> Frost (Shift 4)
+00097. Raen -> Rain (Shift 4)
