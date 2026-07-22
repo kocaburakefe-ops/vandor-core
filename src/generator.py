@@ -2,32 +2,19 @@ import random
 import re
 from pathlib import Path
 
-# 🏛️ Vandor'S Clean Phonetic Structure
+# 🏛️ English / Latin Friendly Phonetic Structure (Easy to Speak)
 VOWELS = "aeiou"
-CONSONANTS = "bcdfghjklmnprstvwxz"
+CONSONANTS = "bcdfghjlmnprstvw" # Zor okunan x, z, j gibi harfler azaltıldı
 
-# Bad endings and phonetic pairs filter
-BAD_ENDINGS = ("f", "g", "j", "v", "w", "y", "x")
-BAD_PAIRS = ["fd", "gv", "mj", "dv", "wg", "yv", "kv", "xv", "zm", "kc"]
-
-# 🌐 Global English Meanings & Categories
-CATEGORIES_WITH_MEANINGS = {
-    "VANDOR_SYSTEM_TECH": [
-        "Data Node", "Network Matrix", "Core Processor", "Signal Socket", 
-        "Subsystem Protocol", "Energy Cell", "Code Stream", "Terminal Interface"
-    ],
-    "VANDOR_COSMIC_SPACE": [
-        "Star Dust", "Orbital Layer", "Time Depth", "Distant Light", 
-        "Gravitational Field", "Cosmic Dust", "Celestial Body", "Void Dimension"
-    ],
-    "VANDOR_LOGIC_CONCEPT": [
-        "Core Logic", "Entity State", "Infinite Loop", "System Rule", 
-        "Observation Layer", "Abstract Structure", "Main Equation", "Transform Theory"
-    ]
-}
+# 🗣️ Daily English Base Vocabulary (For Easy Learning)
+DAILY_ENGLISH_WORDS = [
+    "Water", "Fire", "Sun", "Moon", "Sky", "Earth", "Light", "Time",
+    "Friend", "House", "Road", "Life", "Heart", "Mind", "Word", "Voice",
+    "Hand", "Eye", "Night", "Day", "River", "Stone", "Wind", "Star",
+    "City", "Path", "Door", "Book", "Name", "Sound", "Peace", "Hope"
+]
 
 def load_existing_roots(raw_dir: Path) -> set:
-    """Scans all existing .txt files to prevent duplicates."""
     existing = set()
     if not raw_dir.exists():
         return existing
@@ -45,17 +32,15 @@ def load_existing_roots(raw_dir: Path) -> set:
                         existing.add(root_part.lower())
     return existing
 
-def is_phonetically_valid(word: str) -> bool:
-    """Strict phonetic validation for smooth pronunciation."""
+def is_easy_to_pronounce(word: str) -> bool:
+    """Ensures the generated word flows naturally like English/Latin."""
     word_lower = word.lower()
     
-    if word_lower.endswith(BAD_ENDINGS) and len(word_lower) <= 4:
+    # Dili burkan sert bitişleri engelle
+    if word_lower.endswith(("b", "c", "d", "f", "g", "v", "w")):
         return False
-        
-    for pair in BAD_PAIRS:
-        if pair in word_lower:
-            return False
 
+    # Yan yana 3 aynı tür harf gelemez
     for i in range(len(word_lower) - 2):
         ch1, ch2, ch3 = word_lower[i], word_lower[i+1], word_lower[i+2]
         if (ch1 in VOWELS and ch2 in VOWELS and ch3 in VOWELS) or \
@@ -64,13 +49,12 @@ def is_phonetically_valid(word: str) -> bool:
             
     return True
 
-def generate_root() -> str:
-    """Generates high-quality Vandor'S roots."""
+def generate_easy_root() -> str:
+    """Generates melodic, easy-to-speak root words."""
     patterns = [
-        ("C", "V", "C"),             # Ex: Kar, Vok, Zan
-        ("C", "V", "C", "C"),        # Ex: Karn, Vord, Zalm
-        ("C", "V", "C", "V", "C"),   # Ex: Karon, Vadir, Zelkor
-        ("V", "C", "V", "C")         # Ex: Alor, Evin, Odar
+        ("C", "V", "C", "V"),     # Ex: Vina, Lora, Pura
+        ("C", "V", "C", "C"),     # Ex: Vard, Meln, Rest
+        ("C", "V", "C", "V", "C") # Ex: Valen, Miras, Solen
     ]
     
     while True:
@@ -83,7 +67,7 @@ def generate_root() -> str:
                 word += random.choice(VOWELS)
         
         word = word.capitalize()
-        if is_phonetically_valid(word):
+        if is_easy_to_pronounce(word):
             return word
 
 def generate_batch(count=10000, batch_num=1):
@@ -92,33 +76,27 @@ def generate_batch(count=10000, batch_num=1):
     
     print("[+] Scanning existing database...")
     existing_roots = load_existing_roots(raw_dir)
-    print(f"[+] Protected {len(existing_roots)} existing roots from duplication.")
     
     new_words = []
-    categories = list(CATEGORIES_WITH_MEANINGS.keys())
-    
-    print(f"[+] Generating {count} high-quality Vandor'S roots with English meanings...")
+    print(f"[+] Generating {count} easy-to-learn Vandor'S roots...")
     
     while len(new_words) < count:
-        root = generate_root()
+        root = generate_easy_root()
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
             
-            # Select category and English meaning
-            cat = random.choice(categories)
-            meaning = random.choice(CATEGORIES_WITH_MEANINGS[cat])
-            
-            new_words.append((root, meaning, cat))
+            # Daily English meaning assignment
+            english_meaning = random.choice(DAILY_ENGLISH_WORDS)
+            new_words.append((root, english_meaning))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- GENERATED BATCH {batch_num:02d} ---\n")
-        for idx, (root, meaning, cat) in enumerate(new_words, start=1):
-            # Clean English output format with meanings
-            f.write(f"{idx:05d}. {root} -> {meaning} [{cat}]\n")
+        f.write(f"--- VANDOR'S EASY-LEARN BATCH {batch_num:02d} ---\n")
+        for idx, (root, meaning) in enumerate(new_words, start=1):
+            f.write(f"{idx:05d}. {root} -> {meaning}\n")
 
-    print(f"[✔] BATCH {batch_num:02d} COMPLETED: {output_file} ({len(new_words)} roots written)")
+    print(f"[✔] COMPLETED: {output_file} ({len(new_words)} smooth roots written)")
 
 if __name__ == "__main__":
     generate_batch(count=10000, batch_num=1)
