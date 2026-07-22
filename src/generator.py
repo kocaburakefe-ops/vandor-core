@@ -6,7 +6,6 @@ from pathlib import Path
 VOWELS = "aeiouyó"
 CONSONANTS = "bcdfghjklmnprstvwxz"
 
-# Tematik Kategori ve Türkçe Anlam Şablonları (Gelişmiş Anlam Filtresi)
 CATEGORIES_WITH_MEANINGS = {
     "VANDOR_TEKNOLOJI_SISTEM": [
         "Veri Düğümü", "Ağ Matrisi", "İşlem Çekirdeği", "Sinyal Yuvası", 
@@ -23,7 +22,6 @@ CATEGORIES_WITH_MEANINGS = {
 }
 
 def load_existing_roots(raw_dir: Path) -> set:
-    """Mevcut tüm .txt dosyalarını tarayarak var olan kelime köklerini çeker."""
     existing = set()
     if not raw_dir.exists():
         return existing
@@ -42,7 +40,6 @@ def load_existing_roots(raw_dir: Path) -> set:
     return existing
 
 def is_phonetically_valid(word: str) -> bool:
-    """Yan yana 3 aynı tür harf gelmesini engelleyen ses filtresi."""
     word_lower = word.lower()
     for i in range(len(word_lower) - 2):
         ch1, ch2, ch3 = word_lower[i], word_lower[i+1], word_lower[i+2]
@@ -52,11 +49,10 @@ def is_phonetically_valid(word: str) -> bool:
     return True
 
 def generate_root() -> str:
-    """Vandor'S kurallarına uygun ritmik kök türetici."""
     patterns = [
-        ("C", "V", "C"),          # Örn: Kar, Vok, Zan
-        ("C", "V", "C", "C"),     # Örn: Karn, Vord, Zalm
-        ("C", "V", "C", "V", "C") # Örn: Karon, Vadir, Zelkor
+        ("C", "V", "C"),
+        ("C", "V", "C", "C"),
+        ("C", "V", "C", "V", "C")
     ]
     
     while True:
@@ -72,7 +68,7 @@ def generate_root() -> str:
         if is_phonetically_valid(word):
             return word
 
-def generate_batch(count=50000, batch_num=1):
+def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
@@ -90,10 +86,9 @@ def generate_batch(count=50000, batch_num=1):
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
             
-            # Rastgele Kategori ve Anlam Belirteci Atama
             cat = random.choice(categories)
             meaning_base = random.choice(CATEGORIES_WITH_MEANINGS[cat])
-            meaning_full = f"{meaning_base} (Türetilmiş Kök Part {batch_num:02d})"
+            meaning_full = f"{meaning_base} (Part {batch_num:02d})"
             
             new_words.append((root, meaning_full, cat))
 
@@ -107,12 +102,5 @@ def generate_batch(count=50000, batch_num=1):
     print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
 
 if __name__ == "__main__":
-    # Tek seferde 50.000 kelimelik 1. Part'ı üretir
-    generate_batch(count=50000, batch_num=1)
-
-
-
-if __name__ == "__main__":
-    # Test için ilk etapta 5.000 kelime türetelim (Sistemi yormamak için)
-    generate_batch(count=5000, batch_num=1)
+    generate_batch(count=10000, batch_num=1)
     
