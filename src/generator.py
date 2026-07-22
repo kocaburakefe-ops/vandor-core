@@ -1,64 +1,112 @@
 import random
-import json
+import re
 from pathlib import Path
 
-# Vandor'S Fonetik Yapısı
+# 🏛️ Vandor'S Fonetik ve Ses Yapısı
 VOWELS = "aeiouyó"
 CONSONANTS = "bcdfghjklmnprstvwxz"
 
-# Var olan kelimeleri çekip çakışmayı önleme
-def load_existing_roots(raw_dir: Path):
+# Tematik Kategori ve Türkçe Anlam Şablonları (Gelişmiş Anlam Filtresi)
+CATEGORIES_WITH_MEANINGS = {
+    "VANDOR_TEKNOLOJI_SISTEM": [
+        "Veri Düğümü", "Ağ Matrisi", "İşlem Çekirdeği", "Sinyal Yuvası", 
+        "Alt Sistem Protokolü", "Enerji Hücresi", "Kod Akışı", "Terminal Arayüzü"
+    ],
+    "VANDOR_EVREN_KAVRAM": [
+        "Yıldız Tozu", "Yörünge Katmanı", "Zaman Derinliği", "Uzak Işık", 
+        "Çekim Alanı", "Kozmik Toz", "Gök Cismi", "Boşluk Boyutu"
+    ],
+    "VANDOR_FELSEFE_YAZILIM": [
+        "Temel Mantık", "Varlık Durumu", "Sonsuz Döngü", "Sistem Kuralı", 
+        "Gözlem Katmanı", "Soyut Yapı", "Ana Denklem", "Dönüşüm Kuramı"
+    ]
+}
+
+def load_existing_roots(raw_dir: Path) -> set:
+    """Mevcut tüm .txt dosyalarını tarayarak var olan kelime köklerini çeker."""
     existing = set()
+    if not raw_dir.exists():
+        return existing
+        
     for file_path in raw_dir.glob("*.txt"):
         with open(file_path, "r", encoding="utf-8") as f:
             for line in f:
-                if "->" in line:
+                match = re.search(r"^\d+\.\s*([\w\-]+)", line.strip())
+                if match:
+                    existing.add(match.group(1).strip().lower())
+                elif "->" in line:
                     parts = line.split("->")
                     root_part = parts[0].split(".")[-1].strip()
-                    existing.add(root_part.lower())
+                    if root_part:
+                        existing.add(root_part.lower())
     return existing
 
-def generate_root():
-    """Vandor'S kurallarına uygun ritmik kök türetici"""
+def is_phonetically_valid(word: str) -> bool:
+    """Yan yana 3 aynı tür harf gelmesini engelleyen ses filtresi."""
+    word_lower = word.lower()
+    for i in range(len(word_lower) - 2):
+        ch1, ch2, ch3 = word_lower[i], word_lower[i+1], word_lower[i+2]
+        if (ch1 in VOWELS and ch2 in VOWELS and ch3 in VOWELS) or \
+           (ch1 in CONSONANTS and ch2 in CONSONANTS and ch3 in CONSONANTS):
+            return False
+    return True
+
+def generate_root() -> str:
+    """Vandor'S kurallarına uygun ritmik kök türetici."""
     patterns = [
-        ("C", "V", "C"),         # Örn: Kar, Vok
-        ("C", "V", "C", "C"),    # Örn: Karn, Vord
-        ("C", "V", "C", "V", "C")# Örn: Karon, Vadir
+        ("C", "V", "C"),          # Örn: Kar, Vok, Zan
+        ("C", "V", "C", "C"),     # Örn: Karn, Vord, Zalm
+        ("C", "V", "C", "V", "C") # Örn: Karon, Vadir, Zelkor
     ]
-    pattern = random.choice(patterns)
-    word = ""
-    for char_type in pattern:
-        if char_type == "C":
-            word += random.choice(CONSONANTS)
-        else:
-            word += random.choice(VOWELS)
-    return word.capitalize()
+    
+    while True:
+        pattern = random.choice(patterns)
+        word = ""
+        for char_type in pattern:
+            if char_type == "C":
+                word += random.choice(CONSONANTS)
+            else:
+                word += random.choice(VOWELS)
+        
+        word = word.capitalize()
+        if is_phonetically_valid(word):
+            return word
 
 def generate_batch(count=50000, batch_num=1):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
+    print("[+] Veritabanı taranıyor...")
     existing_roots = load_existing_roots(raw_dir)
-    new_words = []
+    print(f"[+] Mevcut {len(existing_roots)} kelime çakışma korumasına alındı.")
     
-    print(f"[+] {count} adet benzersiz kelime üretimi başlatıldı...")
+    new_words = []
+    categories = list(CATEGORIES_WITH_MEANINGS.keys())
+    
+    print(f"[+] {count} adet benzersiz Vandor'S kökü üretiliyor...")
     
     while len(new_words) < count:
         root = generate_root()
         if root.lower() not in existing_roots:
             existing_roots.add(root.lower())
-            new_words.append(root)
+            
+            # Rastgele Kategori ve Anlam Belirteci Atama
+            cat = random.choice(categories)
+            meaning_base = random.choice(CATEGORIES_WITH_MEANINGS[cat])
+            meaning_full = f"{meaning_base} (Türetilmiş Kök Part {batch_num:02d})"
+            
+            new_words.append((root, meaning_full, cat))
 
     output_file = raw_dir / f"generated_{batch_num:02d}.txt"
     
     with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- GENERATED BATCH {batch_num} ---\n")
-        for idx, root in enumerate(new_words, start=1):
-            f.write(f"{idx:05d}. {root} -> [Otomatik Türetilen Kök - Part {batch_num}]\n")
+        f.write(f"--- GENERATED BATCH {batch_num:02d} ---\n")
+        for idx, (root, meaning, cat) in enumerate(new_words, start=1):
+            f.write(f"{idx:05d}. {root} -> {meaning} [{cat}]\n")
 
-    print(f"[✔] {output_file} başarıyla oluşturuldu! Toplam: {len(new_words)} kelime.")
+    print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
 
 if __name__ == "__main__":
     # Tek seferde 50.000 kelimelik 1. Part'ı üretir
     generate_batch(count=50000, batch_num=1)
-  
+    
