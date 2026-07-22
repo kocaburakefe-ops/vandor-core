@@ -107,7 +107,17 @@ def generate_batch(count=10000, batch_num=1):
 
 if __name__ == "__main__":
     raw_dir = Path("data/raw")
-    existing_batches = len(list(raw_dir.glob("generated_*.txt"))) if raw_dir.exists() else 0
-    next_batch = existing_batches + 1
+    
+    # Klasördeki mevcut generated_XX.txt dosyalarından en büyük numarayı bulur
+    existing_numbers = []
+    if raw_dir.exists():
+        for f in raw_dir.glob("generated_*.txt"):
+            match = re.search(r"generated_(\d+)\.txt", f.name)
+            if match:
+                existing_numbers.append(int(match.group(1)))
+                
+    next_batch = max(existing_numbers) + 1 if existing_numbers else 1
+    
+    print(f"[+] Yeni Batch Numarası: {next_batch:02d}")
     generate_batch(count=10000, batch_num=next_batch)
     
