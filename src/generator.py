@@ -94,6 +94,14 @@ def generate_batch(count=10000, batch_num=1):
 
     print(f"[✔] COMPLETED: {output_file} ({len(new_words)} intuitive roots written)")
 
+
 if __name__ == "__main__":
-    generate_batch(count=10000, batch_num=1)
+    raw_dir = Path("data/raw")
+    # Mevcut batch dosyalarını sayıp otomatik bir sonraki part numarasını verir
+    existing_batches = len(list(raw_dir.glob("generated_*.txt"))) if raw_dir.exists() else 0
+    next_batch = existing_batches + 1
+    
+    print(f"[🚀] Part {next_batch:02d} üretimi başlatılıyor...")
+    generate_batch(count=10000, batch_num=next_batch)
+    
     
