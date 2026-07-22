@@ -1,9 +1,41 @@
-# 📖 Vandor Core Dictionary
+# 📖 Vandor Core Dictionary & Grammar System
 
-**Toplam Kök Kelime Sayısı:** 1500
+Vandor'S dili için oluşturulmuş evrensel gramer kuralları ve kelime kökleri motorudur.
+
+## 🏛️ Gramer ve Dil Mimarisi
+
+- **Cümle Dizilimi:** `SOV (Özne + Nesne + Yüklem)`
+- **Ek Bitiştirme Kuralı:** `Tüm ekler doğrudan kelimeye bitişik yazılır, tire (-) kullanılmaz.`
+
+### ⏳ Zaman Ekleri (Bitişik)
+- **Şimdiki Zaman:** `in (Örn: Eatin)`
+- **Geçmiş Zaman:** `ed (Örn: Eated)`
+- **Gelecek Zaman:** `az (Örn: Eataz)`
+
+### 👤 Kişi Zamirleri
+- `Been`: Ben
+- `Son`: Sen
+- `Ó`: O
+- `Yizz`: Biz
+- `Sizz`: Siz
+- `Óntar`: Onlar
+
+### 📍 İsmin Halleri
+- Ek `un`: Yönelme (-e hali) -> Varun
+- Ek `is`: Bulunma (-de hali) -> Varis
+- Ek `om`: Ayrılma (-den hali) -> Varom
+- Ek `ia`: Belirtme (-i hali) -> Varia
+
+### 🚫 Olumsuzluk ve Soru
+- Ek `no`: Olumsuzluk (Örn: Eatno)
+- Ek `qu`: Soru Yapısı (Örn: Eatqu? / Eatnoqu?)
+
+---
+
+## 📚 Kelime Kökleri (Toplam: 1500)
 
 | ID | Kök (Root) | Türkçe Anlamı | Kategori |
-|---|---|---|---|
+|:---|:---|:---|:---|
 | 1 | **Karnor** | Çekirdek / Sistem Mantığı (Kernel) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
 | 2 | **Dataron** | İşlenecek Ham Veri (Data) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
 | 3 | **Netris** | Ağ Matrisi / Bağlantı Sahası (Network) | `I. SİSTEM, YAZILIM VE ÇEKİRDEK (SYSTEM & KERNEL)` |
