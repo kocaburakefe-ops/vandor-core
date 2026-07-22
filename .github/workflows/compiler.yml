@@ -1,29 +1,32 @@
-name: Vandor Core Auto-Compiler
+name: Vandor Dictionary Engine
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 jobs:
-  build-and-compile:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: Repo'yu Cek
-        uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-      - name: Python Kur
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Derleyiciyi Calistir
-        run: python src/builder.py
+      - name: Run Generator & Builder
+        run: |
+          python src/generator.py
+          python src/builder.py
 
-      - name: Degisiklikleri Otomatik Kaydet (Commit)
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: 'auto: dictionary.json ve DICTIONARY.md guncellendi'
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git diff-index --quiet HEAD || git commit -m "auto: generated words and updated dictionary"
+          git push
           
