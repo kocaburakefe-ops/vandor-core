@@ -2,45 +2,60 @@ import random
 import re
 from pathlib import Path
 
-# --- 1. ADIM: GENİŞLETİLMİŞ FONETİK HAVUZ VE DİNAMİK KOMBİNASYONLAR ---
-VOWELS = ["a", "e", "i", "o", "u", "ae", "ai", "ea", "eo", "ia"]
-CONSONANTS = ["b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "r", "s", "t", "v", "z", "th", "sh", "kr", "dr"]
-PREFIXES = ["val", "xar", "vor", "kor", "zer", "dra", "mor", "syr", "tar", "bel", ""]
-SUFFIXES = ["is", "os", "um", "ar", "en", "or", "ath", "ys", "al", "im", ""]
+# --- VANDOR'S MELODİK SES HARİTASI ---
+VOWELS = ["a", "e", "i", "o", "u", "ar", "el", "is"]
+CONSONANTS = ["b", "d", "f", "g", "k", "l", "m", "n", "p", "r", "s", "t", "v", "z"]
 
-def generate_unique_word():
-    """Vandor'S kurallarına uygun, milyarlarca kombinasyon üreten kelime motoru."""
-    pattern = random.choice([1, 2, 3, 4])
+# --- SÖZLÜK ANLAM BİLEŞENLERİ (ENGLISH MEANING BUILDERS) ---
+ENGLISH_ROOTS = [
+    "light", "dark", "shadow", "fire", "water", "wind", "earth", "star", "sun", "moon",
+    "sky", "stone", "iron", "blood", "spirit", "soul", "mind", "life", "death", "time",
+    "space", "realm", "king", "queen", "path", "sword", "shield", "force", "power", "truth",
+    "vision", "silent", "ancient", "eternal", "fury", "grace", "storm", "frost", "peak", "bound"
+]
+
+ENGLISH_MODIFIERS = [
+    "walker", "seeker", "bringer", "keeper", "weaver", "shaper", "bearer", "caller", 
+    "master", "blade", "heart", "guard", "song", "fall", "rise", "forge", "sight", "born"
+]
+
+def generate_melodic_word():
+    """Doğal, akıcı ve melodik Vandor'S kelimesi türetir."""
+    pattern = random.choice([1, 2, 3])
     
-    prefix = random.choice(PREFIXES)
-    suffix = random.choice(SUFFIXES)
+    c1, c2, c3 = random.sample(CONSONANTS, 3)
+    v1, v2 = random.sample(VOWELS, 2)
     
     if pattern == 1:
-        # C-V-C-V-C (Örn: K-a-r-o-n)
-        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
+        # Örn: Van-dra, Kor-is
+        word = f"{c1}{v1}{c2}{v2}"
     elif pattern == 2:
-        # V-C-V-C (Örn: A-r-o-n)
-        core = random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
-    elif pattern == 3:
-        # C-V-C-C-V (Örn: D-r-a-k-o)
-        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(CONSONANTS) + random.choice(VOWELS)
+        # Örn: A-vel-is, O-mar-a
+        word = f"{v1}{c1}{v2}{c2}"
     else:
-        # C-V-C (Örn: V-o-r)
-        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
+        # Örn: Bel-or-a, Sil-ar-is
+        word = f"{c1}{v1}{c2}{v2}{c3}"
         
-    word = f"{prefix}{core}{suffix}"
-    return word.lower()
+    return word.capitalize()
 
-# --- 2. ADIM: AKILLI HAFIZA VE SIFIR ÇAKIŞMA YÖNETİMİ ---
+def generate_meaning():
+    """Anlaşılır ve karizmatik İngilizce karşılık üretir."""
+    if random.random() < 0.4:
+        return random.choice(ENGLISH_ROOTS)
+    else:
+        root = random.choice(ENGLISH_ROOTS)
+        mod = random.choice(ENGLISH_MODIFIERS)
+        return f"{root}-{mod}"
+
 def load_existing_words(raw_dir: Path) -> set:
-    """Mevcut tüm batch dosyalarını tarayıp üretilmiş kelimeleri hafızaya çeker."""
+    """Mevcut kelimeleri hafızaya çeker."""
     existing_words = set()
     if raw_dir.exists():
         for file_path in raw_dir.glob("generated_*.txt"):
             with open(file_path, "r", encoding="utf-8") as f:
                 for line in f:
-                    word = line.strip()
-                    if word:
+                    if ":" in line:
+                        word = line.split(":")[0].strip()
                         existing_words.add(word)
     return existing_words
 
@@ -50,25 +65,26 @@ def generate_batch(count=10000, batch_num=1):
     
     print(f"[🔍] Geçmiş kelimeler taranıyor...")
     existing_words = load_existing_words(raw_dir)
-    print(f"[ℹ️] Toplam {len(existing_words)} benzersiz kelime hafızada.")
+    print(f"[ℹ️] Toplam {len(existing_words)} kelime hafızada.")
     
-    new_words = []
+    new_entries = []
     attempts = 0
-    max_attempts = count * 20  # Sonsuz döngüyü önleme emniyeti
+    max_attempts = count * 30
     
-    while len(new_words) < count and attempts < max_attempts:
+    while len(new_entries) < count and attempts < max_attempts:
         attempts += 1
-        candidate = generate_unique_word()
+        v_word = generate_melodic_word()
         
-        if candidate not in existing_words:
-            existing_words.add(candidate)
-            new_words.append(candidate)
+        if v_word not in existing_words:
+            existing_words.add(v_word)
+            meaning = generate_meaning()
+            new_entries.append(f"{v_word} : {meaning}")
             
     file_path = raw_dir / f"generated_{batch_num:02d}.txt"
     with open(file_path, "w", encoding="utf-8") as f:
-        f.write("\n".join(new_words) + "\n")
+        f.write("\n".join(new_entries) + "\n")
         
-    print(f"[✅] Batch {batch_num:02d} başarıyla oluşturuldu! Basılan kelime sayısı: {len(new_words)}")
+    print(f"[✅] Batch {batch_num:02d} başarıyla oluşturuldu! Basılan kelime: {len(new_entries)}")
 
 if __name__ == "__main__":
     raw_dir = Path("data/raw")
