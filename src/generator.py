@@ -1,116 +1,78 @@
 import random
 import re
-import urllib.request
 from pathlib import Path
 
-def get_large_english_vocab() -> list:
-    """GitHub üzerindeki 10.000 kelimelik listeden veriyi çeker."""
-    url = "https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa-no-swears.txt"
-    try:
-        print("[+] Dev İngilizce kelime havuzu indiriliyor...")
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req, timeout=10) as response:
-            words = response.read().decode('utf-8').splitlines()
-            clean_words = [w.capitalize() for w in words if len(w) >= 3]
-            print(f"[✔] {len(clean_words)} adet İngilizce kelime hafızaya yüklendi!")
-            return clean_words
-    except Exception as e:
-        print(f"[!] İnternet indirilemedi, dahili geniş yedek listeye geçiliyor...")
-        return ["Stone", "Water", "Fire", "Moon", "Sun", "Light", "Mind", "Heart", "Star", "Night", "Wind", "Earth", "Life", "Time", "Cloud", "Storm"]
+# --- 1. ADIM: GENİŞLETİLMİŞ FONETİK HAVUZ VE DİNAMİK KOMBİNASYONLAR ---
+VOWELS = ["a", "e", "i", "o", "u", "ae", "ai", "ea", "eo", "ia"]
+CONSONANTS = ["b", "c", "d", "f", "g", "h", "k", "l", "m", "n", "p", "r", "s", "t", "v", "z", "th", "sh", "kr", "dr"]
+PREFIXES = ["val", "xar", "vor", "kor", "zer", "dra", "mor", "syr", "tar", "bel", ""]
+SUFFIXES = ["is", "os", "um", "ar", "en", "or", "ath", "ys", "al", "im", ""]
 
-ENGLISH_CORE_WORDS = get_large_english_vocab()
-
-def load_existing_roots(raw_dir: Path) -> set:
-    existing = set()
-    if not raw_dir.exists():
-        return existing
-        
-    for file_path in raw_dir.glob("*.txt"):
-        with open(file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                match = re.search(r"^\d+\.\s*([\w\-]+)", line.strip())
-                if match:
-                    existing.add(match.group(1).strip().lower())
-                elif "->" in line:
-                    parts = line.split("->")
-                    root_part = parts[0].split(".")[-1].strip()
-                    if root_part:
-                        existing.add(root_part.lower())
-    return existing
-
-def transform_to_vandor(word: str, rule_index: int) -> str:
-    """İngilizce kelimeyi Vandor'S fonetiğine kaydırır."""
-    w = word.lower()
+def generate_unique_word():
+    """Vandor'S kurallarına uygun, milyarlarca kombinasyon üreten kelime motoru."""
+    pattern = random.choice([1, 2, 3, 4])
     
-    # Esnek kurallar
-    r = rule_index % 6
-    if r == 0:
-        res = (w[:-2] + "ar") if w.endswith("er") else ((w[:-1] + "a") if w.endswith("e") else w + "a")
-    elif r == 1:
-        res = w.replace("ight", "ytis").replace("ind", "mida") if ("ight" in w or "ind" in w) else ((w[:-1] + "is") if w.endswith("e") else w + "is")
-    elif r == 2:
-        res = re.sub(r"(oo|ee|ai|ea|ou)", lambda m: m.group(0)[0], w)
-        res = (res[:-1] if res.endswith("e") else res) + "en"
-    elif r == 3:
-        res = w.replace("i", "e").replace("o", "a") if ("i" in w or "o" in w) else w + "os"
-        if not res.endswith(("a", "e", "i", "o", "u", "s", "n")): res += "a"
-    elif r == 4:
-        res = (w[:-1] + "or") if w.endswith("e") else w + "or"
+    prefix = random.choice(PREFIXES)
+    suffix = random.choice(SUFFIXES)
+    
+    if pattern == 1:
+        # C-V-C-V-C (Örn: K-a-r-o-n)
+        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
+    elif pattern == 2:
+        # V-C-V-C (Örn: A-r-o-n)
+        core = random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
+    elif pattern == 3:
+        # C-V-C-C-V (Örn: D-r-a-k-o)
+        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS) + random.choice(CONSONANTS) + random.choice(VOWELS)
     else:
-        res = (w[:-1] + "in") if w.endswith("e") else w + "in"
+        # C-V-C (Örn: V-o-r)
+        core = random.choice(CONSONANTS) + random.choice(VOWELS) + random.choice(CONSONANTS)
+        
+    word = f"{prefix}{core}{suffix}"
+    return word.lower()
 
-    # Eğer çok fazla tekrar ettiyse kelime sonuna ritmik hece atarak kilitlenmeyi önler
-    if rule_index >= 6:
-        extra_suffixes = ["is", "on", "ar", "en", "or"]
-        res += extra_suffixes[(rule_index // 6) % len(extra_suffixes)]
-
-    return res.capitalize()
+# --- 2. ADIM: AKILLI HAFIZA VE SIFIR ÇAKIŞMA YÖNETİMİ ---
+def load_existing_words(raw_dir: Path) -> set:
+    """Mevcut tüm batch dosyalarını tarayıp üretilmiş kelimeleri hafızaya çeker."""
+    existing_words = set()
+    if raw_dir.exists():
+        for file_path in raw_dir.glob("generated_*.txt"):
+            with open(file_path, "r", encoding="utf-8") as f:
+                for line in f:
+                    word = line.strip()
+                    if word:
+                        existing_words.add(word)
+    return existing_words
 
 def generate_batch(count=10000, batch_num=1):
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
-    print("[+] Database taranıyor...")
-    existing_roots = load_existing_roots(raw_dir)
+    print(f"[🔍] Geçmiş kelimeler taranıyor...")
+    existing_words = load_existing_words(raw_dir)
+    print(f"[ℹ️] Toplam {len(existing_words)} benzersiz kelime hafızada.")
     
     new_words = []
-    total_base = len(ENGLISH_CORE_WORDS)
-    
-    print(f"[+] {count} adet Vandor'S kökü üretiliyor...")
-    
-    idx = 0
-    max_attempts = count * 20  # Sonsuz döngü koruması
     attempts = 0
+    max_attempts = count * 20  # Sonsuz döngüyü önleme emniyeti
     
     while len(new_words) < count and attempts < max_attempts:
         attempts += 1
-        base_word = ENGLISH_CORE_WORDS[idx % total_base]
-        rule_type = idx // total_base
+        candidate = generate_unique_word()
         
-        vandor_root = transform_to_vandor(base_word, rule_type)
+        if candidate not in existing_words:
+            existing_words.add(candidate)
+            new_words.append(candidate)
+            
+    file_path = raw_dir / f"generated_{batch_num:02d}.txt"
+    with open(file_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(new_words) + "\n")
         
-        if vandor_root.lower() not in existing_roots:
-            existing_roots.add(vandor_root.lower())
-            variant = rule_type + 1
-            meaning_label = f"{base_word}" if variant == 1 else f"{base_word} (Shift {variant})"
-            new_words.append((vandor_root, meaning_label))
-        idx += 1
-
-    output_file = raw_dir / f"generated_{batch_num:02d}.txt"
-    
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(f"--- VANDOR'S BATCH {batch_num:02d} ---\n")
-        for i, (root, meaning) in enumerate(new_words, start=1):
-            f.write(f"{i:05d}. {root} -> {meaning}\n")
-
-    print(f"[✔] BATCH {batch_num:02d} TAMAMLANDI: {output_file} ({len(new_words)} kelime yazıldı)")
-
-
+    print(f"[✅] Batch {batch_num:02d} başarıyla oluşturuldu! Basılan kelime sayısı: {len(new_words)}")
 
 if __name__ == "__main__":
     raw_dir = Path("data/raw")
     
-    # Mevcut batch numaralarını tara
     existing_numbers = []
     if raw_dir.exists():
         for f in raw_dir.glob("generated_*.txt"):
@@ -119,13 +81,11 @@ if __name__ == "__main__":
                 existing_numbers.append(int(match.group(1)))
                 
     next_batch = max(existing_numbers) + 1 if existing_numbers else 1
-    
-    # 🎯 106 BATCH LİMİTİ (Temizlenen çöplerin telafisiyle tam hedef)
     MAX_BATCH_COUNT = 106
     
     if next_batch > MAX_BATCH_COUNT:
-        print(f"[🛑] HEDEF ULAŞILDI: Toplam {MAX_BATCH_COUNT} batch tamamlandı. Otomatik üretim durduruldu!")
+        print(f"[🛑] HEDEF ULAŞILDI: Toplam {MAX_BATCH_COUNT} batch tamamlandı!")
     else:
-        print(f"[+] Üretim Başlatılıyor -> Batch {next_batch:02d} / {MAX_BATCH_COUNT}")
+        print(f"[🚀] Üretim Başlatılıyor -> Batch {next_batch:02d} / {MAX_BATCH_COUNT}")
         generate_batch(count=10000, batch_num=next_batch)
         
