@@ -3,8 +3,8 @@ import re
 from pathlib import Path
 from collections import defaultdict
 
-# --- VANDOR'S GENIŞLETILMIŞ SES HARİTASI ---
-# ✅ Daha geniş vowel seti
+# --- VANDOR'S EXTENDED PHONETIC INVENTORY ---
+# ✅ Extended vowel set
 VOWELS = [
     "a", "e", "i", "o", "u", "y",
     "aa", "ae", "ai", "ao", "au",
@@ -18,7 +18,7 @@ VOWELS = [
     "as", "es", "is", "os", "us"
 ]
 
-# ✅ Daha geniş consonant seti
+# ✅ Extended consonant set
 CONSONANTS = [
     "b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
     "n", "p", "q", "r", "s", "t", "v", "w", "x", "z",
@@ -28,7 +28,7 @@ CONSONANTS = [
     "th", "tr", "tw", "wh", "wr", "zh"
 ]
 
-# ✅ İngilizce anlam bileşenleri
+# ✅ English semantic components
 ENGLISH_ROOTS = [
     "light", "dark", "shadow", "fire", "water", "wind", "earth", "star", "sun", "moon",
     "sky", "stone", "iron", "blood", "spirit", "soul", "mind", "life", "death", "time",
@@ -47,17 +47,17 @@ ENGLISH_MODIFIERS = [
     "of", "the", "and", "blessed", "cursed", "eternal", "ancient", "wild", "free", "bound"
 ]
 
-# --- VANDOR'S MELODIK KELIME YARATICI ---
+# --- VANDOR'S MELODIC WORD GENERATOR ---
 def generate_melodic_word(pattern_type=None):
     """
-    Doğal, akıcı ve melodik Vandor'S kelimesi türetir.
-    ✅ Tekrar seçime izin verir (random.choice kullanır)
-    ✅ 4-7 harf uzunluğunda kelimeler oluşturur
+    Generates natural, flowing, and melodic Vandor'S words.
+    ✅ Allows repetition (uses random.choice)
+    ✅ Creates words 4-7 characters long
     """
     if pattern_type is None:
         pattern_type = random.randint(1, 8)
     
-    # İçinde tekrar olabilir - daha fazla kombinasyon
+    # Allows repetition for greater combination space
     v = lambda: random.choice(VOWELS)
     c = lambda: random.choice(CONSONANTS)
     
@@ -76,11 +76,11 @@ def generate_melodic_word(pattern_type=None):
         word = patterns[pattern_type]()
         return word.capitalize()
     except Exception as e:
-        print(f"[⚠️] Pattern {pattern_type} hatası: {e}")
+        print(f"[⚠️] Pattern {pattern_type} error: {e}")
         return generate_melodic_word(random.randint(1, 8))
 
 def generate_meaning():
-    """Anlaşılır ve karizmatik İngilizce karşılık üretir."""
+    """Generates comprehensible and evocative English equivalents."""
     if random.random() < 0.5:
         return random.choice(ENGLISH_ROOTS)
     else:
@@ -89,7 +89,7 @@ def generate_meaning():
         return f"{root} {mod}"
 
 def load_existing_words(raw_dir: Path) -> set:
-    """Mevcut kelimeleri hafızaya çeker."""
+    """Loads existing words into memory for collision detection."""
     existing_words = set()
     if raw_dir.exists():
         for file_path in sorted(raw_dir.glob("generated_*.txt")):
@@ -101,40 +101,40 @@ def load_existing_words(raw_dir: Path) -> set:
                             if word:
                                 existing_words.add(word.lower())
             except Exception as e:
-                print(f"[⚠️] {file_path} okuma hatası: {e}")
+                print(f"[⚠️] Error reading {file_path}: {e}")
     return existing_words
 
 def generate_batch(count=10000, batch_num=1, verbose=True):
     """
-    ✅ Yeni batch oluşturur
-    ✅ Collision detection ile çakışma engeller
-    ✅ Progress gösterir
+    ✅ Generates new batch
+    ✅ Prevents collisions with collision detection
+    ✅ Displays progress
     """
     raw_dir = Path("data/raw")
     raw_dir.mkdir(parents=True, exist_ok=True)
     
     if verbose:
-        print(f"\n[🔍] Batch {batch_num:03d} için geçmiş kelimeler taranıyor...")
+        print(f"\n[🔍] Scanning existing words for batch {batch_num:03d}...")
     
     existing_words = load_existing_words(raw_dir)
     initial_count = len(existing_words)
     
     if verbose:
-        print(f"[ℹ️] Toplam {initial_count} kelime hafızada.")
-        print(f"[🚀] Üretim başlıyor: {count} kelime hedefleniyor...")
+        print(f"[ℹ️] Total words in memory: {initial_count}")
+        print(f"[🚀] Starting generation: {count} words targeted...")
     
     new_entries = []
     attempts = 0
-    max_attempts = count * 50  # ✅ Daha yüksek attempt
+    max_attempts = count * 50  # ✅ Higher attempt limit
     collision_count = 0
     
-    # Pattern dağılımı - çeşitlilik için
+    # Pattern distribution for variety
     pattern_dist = [1, 2, 3, 4, 5, 6, 7, 8]
     
     while len(new_entries) < count and attempts < max_attempts:
         attempts += 1
         
-        # Pattern seç (döngüsel şekilde)
+        # Select pattern in cyclic manner
         pattern = pattern_dist[(attempts - 1) % len(pattern_dist)]
         v_word = generate_melodic_word(pattern_type=pattern)
         v_word_lower = v_word.lower()
@@ -146,11 +146,11 @@ def generate_batch(count=10000, batch_num=1, verbose=True):
         else:
             collision_count += 1
         
-        # Progress göster (her 1000 kelimede)
+        # Show progress every 1000 words
         if verbose and len(new_entries) % 1000 == 0:
-            print(f"  [{len(new_entries):5d}/{count}] kelime oluşturuldu... (çakışma: {collision_count})")
+            print(f"  [{len(new_entries):5d}/{count}] words generated... (collisions: {collision_count})")
     
-    # Dosyaya yaz
+    # Write to file
     file_path = raw_dir / f"generated_{batch_num:03d}.txt"
     try:
         with open(file_path, "w", encoding="utf-8") as f:
@@ -158,22 +158,22 @@ def generate_batch(count=10000, batch_num=1, verbose=True):
         
         if verbose:
             success_rate = (len(new_entries) / attempts * 100) if attempts > 0 else 0
-            print(f"\n[✅] Batch {batch_num:03d} başarıyla oluşturuldu!")
-            print(f"    📊 Başarılı kelime: {len(new_entries)}/{count}")
-            print(f"    🎯 Başarı oranı: {success_rate:.1f}%")
-            print(f"    💾 Dosya: {file_path}")
-            print(f"    📈 Toplam kelime havuzu: {initial_count + len(new_entries)}")
+            print(f"\n[✅] Batch {batch_num:03d} successfully generated!")
+            print(f"    📊 Successful words: {len(new_entries)}/{count}")
+            print(f"    🎯 Success rate: {success_rate:.1f}%")
+            print(f"    💾 File: {file_path}")
+            print(f"    📈 Total word pool: {initial_count + len(new_entries)}")
     except Exception as e:
-        print(f"[❌] Dosya yazma hatası: {e}")
+        print(f"[❌] File write error: {e}")
 
 def batch_generator_loop(start_batch=1, end_batch=106, resume=True):
     """
-    ✅ Otomatik batch döngüsü
-    ✅ Kesintiden devam edebilir
+    ✅ Automatic batch loop
+    ✅ Can resume from interruption
     """
     raw_dir = Path("data/raw")
     
-    # Mevcut batch'leri bul
+    # Find existing batches
     existing_numbers = []
     if raw_dir.exists() and resume:
         for f in raw_dir.glob("generated_*.txt"):
@@ -187,25 +187,25 @@ def batch_generator_loop(start_batch=1, end_batch=106, resume=True):
     print(f"\n{'='*60}")
     print(f"🌌 VANDOR'S ENGINE v2.0 - BATCH GENERATOR")
     print(f"{'='*60}")
-    print(f"📊 Tamamlanan: {len(existing_numbers)} batch")
-    print(f"🔄 Sonraki batch: {next_batch:03d}")
-    print(f"🎯 Hedef: {end_batch:03d}")
+    print(f"📊 Completed batches: {len(existing_numbers)}")
+    print(f"🔄 Next batch: {next_batch:03d}")
+    print(f"🎯 Target: {end_batch:03d}")
     print(f"{'='*60}\n")
     
     if next_batch > end_batch:
         total_words = len(load_existing_words(raw_dir))
-        print(f"[🛑] HEDEF ULAŞILDI!")
-        print(f"✅ {end_batch} batch tamamlandı!")
-        print(f"📈 Toplam kelime: {total_words:,}")
+        print(f"[🛑] TARGET REACHED!")
+        print(f"✅ All {end_batch} batches completed!")
+        print(f"📈 Total words: {total_words:,}")
         return
     
-    # Single batch oluştur
+    # Generate single batch
     generate_batch(count=10000, batch_num=next_batch, verbose=True)
 
 if __name__ == "__main__":
-    # ✅ SEÇENEK 1: Tek batch oluştur
+    # ✅ OPTION 1: Generate single batch
     batch_generator_loop(start_batch=1, end_batch=106, resume=True)
     
-    # ✅ SEÇENEK 2: Manuel batch
+    # ✅ OPTION 2: Manual batch
     # generate_batch(count=10000, batch_num=1, verbose=True)
     
